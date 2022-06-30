@@ -38,4 +38,6 @@ engine:
                   with: "#artifactId"
                 - text: petKind
                   with: "#petKind"
+                - text: pkgName
+                  with: "#pkgName"
                 

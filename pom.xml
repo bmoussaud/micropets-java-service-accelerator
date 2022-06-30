@@ -7,7 +7,7 @@
 		<version>2.5.14</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>org.moussaud.micropets</groupId>
+	<groupId>pkgName</groupId>
 	<artifactId>my-petservice</artifactId>
 	<name>my-petservice</name>
 	<version>0.0.1-SNAPSHOT</version>
