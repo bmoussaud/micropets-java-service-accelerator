@@ -36,3 +36,6 @@ engine:
               substitutions:
                 - text: my-petservice
                   with: "#artifactId"
+                - text: petKind
+                  with: "#petKind"
+                
