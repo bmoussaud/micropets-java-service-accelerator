@@ -1,0 +1,13 @@
+accelerator:
+  displayName: Micropet Java Service
+  description: Tanzu Application Platform Accelerator to spin up a new service for the micropets app
+  iconUrl: https://raw.githubusercontent.com/simple-starters/icons/master/icon-cloud.png
+  tags:
+  - java
+  - spring
+  - micropets
+  options:
+  - name: petKind
+    display: true    
+    defaultValue: bird
+    required: true
