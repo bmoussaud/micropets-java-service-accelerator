@@ -1,4 +1,4 @@
-package com.example.springboot;
+package com.renamethis;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -10,8 +10,6 @@ import org.springframework.boot.actuate.trace.http.InMemoryHttpTraceRepository;
 
 @SpringBootApplication
 public class Application {
-
-	String x = "9";
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);

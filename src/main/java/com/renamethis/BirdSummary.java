@@ -1,4 +1,4 @@
-package com.example.springboot;
+package com.renamethis;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,7 +8,6 @@ import java.util.Random;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.function.Predicate;
-
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -22,8 +21,6 @@ public class BirdSummary {
 
     @JsonProperty(value = "Pets")
     List<Bird> pets = new ArrayList<>();
-
-    String x;
 
     public void addBird(Bird bird) {
         pets.add(bird);
@@ -59,5 +56,5 @@ public class BirdSummary {
         this.total = pets.size();
         return this;
     }
-    
+
 }

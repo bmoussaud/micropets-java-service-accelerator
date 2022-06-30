@@ -1,4 +1,4 @@
-package com.example.springboot;
+package com.renamethis;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
