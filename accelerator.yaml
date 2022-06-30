@@ -18,20 +18,21 @@ accelerator:
       dataType: string
       defaultValue: org.moussaud.micropets
 engine:
-  merge:
-    - exclude:
-        [
-          "**/*.java",
-          ".project",
-          ".classpath",
-          ".settings/**",
-          "k8s-resource.yml",
-        ]
-    - include: ["**/*.java"]
-      chain:
-        - type: OpenRewriteRecipe
-          recipe: org.openrewrite.java.ChangePackage
-          options:
-            oldFullyQualifiedPackageName: "'com.renamethis'"
-            newFullyQualifiedPackageName: "#pkgName"
-            recursive: true
+  chain:
+    - merge:
+        - include: ["**"]
+          exclude:
+            [
+              "pom.xml",
+              "README.md",
+              "grype.yaml",
+              "kubernetes/**",
+              "catalog/*.yaml",
+              ".github/workflows/**",
+            ]
+        - include: ["pom.xml"]
+          chain:
+            - type: ReplaceText
+              substitutions:
+                - text: my-petservice
+                  with: "#artifactId"
