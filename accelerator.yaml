@@ -3,11 +3,12 @@ accelerator:
   description: Tanzu Application Platform Accelerator to spin up a new service for the micropets app
   iconUrl: https://github.com/bmoussaud/micropet-java-service-accelerator/raw/main/pet-silhouette-icons.png
   tags:
-  - java
-  - spring
-  - micropets
+    - java
+    - spring
+    - micropets
   options:
-  - name: petKind
-    display: true    
-    defaultValue: bird
-    required: true
+    - name: petKind
+      label: "Kind"
+      display: true
+      defaultValue: bird
+      required: true
