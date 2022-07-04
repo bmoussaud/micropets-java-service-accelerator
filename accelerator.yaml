@@ -54,6 +54,10 @@ engine:
                   with: "#pkgName"
         - include: ["**/*.java"]
           chain:
+            - type: ReplaceText
+              regex:
+                pattern: com.renamethis
+                with: "#pkgName"
             - type: OpenRewriteRecipe
               recipe: org.openrewrite.java.ChangePackage
               options:
