@@ -41,7 +41,13 @@ engine:
             - text: pkgName
               with: "#pkgName"
     - include: ["**/*.java"]
-      chain:
+      transformations:
+        - type: ReplaceText
+          substitutions:
+            - text: PetKind
+              with: "#petKind"
+            - text: lowercasePetKind
+              with: "#petKind.toLowerCase()"
         - type: OpenRewriteRecipe
           recipe: org.openrewrite.java.ChangePackage
           options:
