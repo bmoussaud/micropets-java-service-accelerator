@@ -48,6 +48,8 @@ engine:
                   with: "#artifactId"
                 - text: PetKind
                   with: "#petKind"
+                - text: lowercasePetKind
+                  with: "#petKind.toLowerCase()"
                 - text: pkgName
                   with: "#pkgName"
                 

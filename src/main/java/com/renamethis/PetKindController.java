@@ -22,7 +22,7 @@ public class PetKindController {
 		return "PetKindServiceReadiness";
 	}
 
-	@GetMapping(value = { "", "/", "/PetKinds/v1/data" }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = { "", "/", "/lowercasePetKinds/v1/data" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	public PetKindSummary PetKinds() {
 		PetKindSummary summary = new PetKindSummary();
 		try {
@@ -40,12 +40,12 @@ public class PetKindController {
 		return summary.filter();
 	}
 
-	@GetMapping(value = "/PetKinds/v1/data/{index}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/lowercasePetKinds/v1/data/{index}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public PetKind PetKind(@PathVariable Long index) {
 		return repository.findById(index).get();
 	}
 
-	@GetMapping(value = "/PetKinds/v1/load", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/lowercasePetKinds/v1/load", produces = MediaType.APPLICATION_JSON_VALUE)
 	public PetKindSummary load() {
 
 		repository.save(new PetKind("Tweety", "Yellow Canary", 2,
