@@ -52,12 +52,11 @@ engine:
                   with: "#petKind.toLowerCase()"
                 - text: pkgName
                   with: "#pkgName"
-        - include: [ "**/*.java" ]
+        - include: ["**/*.java"]
           chain:
-          - type: OpenRewriteRecipe
-            recipe: org.openrewrite.java.ChangePackage
-            options:
-              oldFullyQualifiedPackageName: "'com.renamethis'"
-              newFullyQualifiedPackageName: "#pkgName"
-              recursive: true
-                
+            - type: OpenRewriteRecipe
+              recipe: org.openrewrite.java.ChangePackage
+              options:
+                oldFullyQualifiedPackageName: "'com.renamethis'"
+                newFullyQualifiedPackageName: "#pkgName"
+                recursive: true
