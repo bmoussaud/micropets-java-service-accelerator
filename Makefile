@@ -10,4 +10,4 @@ describe:
 	kubectl describe Accelerator micropet-java-service-accelerator -n accelerator-system
 
 status:
-	kubectl tree Accelerator micropet-java-service-accelerator -n accelerator-system
+	kubectl t	
