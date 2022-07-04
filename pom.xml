@@ -66,16 +66,6 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.openrewrite.maven</groupId>
-				<artifactId>rewrite-maven-plugin</artifactId>
-				<version>4.25.3</version>
-				<configuration>
-					<activeRecipes>						
-						<recipe>com.yourorg.VetToVeterinary</recipe>
-					</activeRecipes>
-				</configuration>
-			</plugin>
 
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

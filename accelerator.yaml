@@ -18,12 +18,6 @@ accelerator:
       dataType: string
       defaultValue: org.moussaud.micropets
 engine:
-  exclude:
-    - ".project"
-    - ".settings/**"
-    - ".idea/**"
-    - ".gradle/**"
-    - ".git/**"
   merge:
     - include: ["**/**"]
       exclude:
@@ -35,17 +29,31 @@ engine:
           "src/main/java/**",
           "applications/**",
           "ytt/**",
+          "k8s/**",
+          "config/**",
+          "README.md",
+          "Tiltfile",
         ]
     - include: ["pom.xml"]
       chain:
         - type: ReplaceText
           substitutions:
             - text: my-petservice
-              with: "#artifactId"
+              with: "#petKind.toLowerCase()"
             - text: PetKind
               with: "#petKind"
             - text: pkgName
               with: "#pkgName"
+    - include: ["config/**", "README.md","Tiltfile"]
+      chain:
+        - type: ReplaceText
+          substitutions:
+            - text: my-petservice
+              with: "#petKind.toLowerCase()"
+            - text: PetKind
+              with: "#petKind"
+            - text: lowercasePetKind
+              with: "#petKind.toLowerCase()"
     - include: ["**/*.java"]
       chain:
         - type: ReplaceText

@@ -1,12 +1,11 @@
 apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
-  name: birds
+  name: my-petservices
   labels:
     app.kubernetes.io/part-of: micropets-app
     app.tanzu.vmware.com/workload-type: micropet-service-git
-spec:
-  #serviceAccountName: cartographer-workload-sa 
+spec:  
   serviceAccountName: tap-default
   source:
     git:
