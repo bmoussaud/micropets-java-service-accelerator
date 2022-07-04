@@ -50,19 +50,13 @@ engine:
                   with: "#petKind"
                 - text: lowercasePetKind
                   with: "#petKind.toLowerCase()"
-                - text: pkgName
-                  with: "#pkgName"
-        - include: ["**/*.java"]
-          chain:
-            - type: ReplaceText
-              regex:
-                pattern: com.renamethis
-                with: "#pkgName"
+                - text: com.renamethis
+                  with: "#v"
             - type: OpenRewriteRecipe
               recipe: org.openrewrite.java.ChangePackage
               options:
                 oldFullyQualifiedPackageName: "'com.renamethis'"
                 newFullyQualifiedPackageName: "#pkgName"
                 recursive: true
-            - type: UniquePath
-              strategy: Append
+        - type: UniquePath
+          strategy: Append

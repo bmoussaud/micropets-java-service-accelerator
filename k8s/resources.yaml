@@ -8,3 +8,4 @@ spec:
     url: https://github.com/bmoussaud/micropet-java-service-accelerator
     ref:
       branch: main
+    interval: 10s
