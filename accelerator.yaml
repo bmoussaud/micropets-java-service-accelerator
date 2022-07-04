@@ -18,45 +18,32 @@ accelerator:
       dataType: string
       defaultValue: org.moussaud.micropets
 engine:
-  chain:
-    - merge:
-        - include: ["**"]
-          exclude:
-            [
-              "pom.xml",
-              "README.md",
-              "grype.yaml",
-              "kubernetes/**",
-              "catalog/*.yaml",
-              ".github/workflows/**",
-            ]
-        - include: ["pom.xml"]
-          chain:
-            - type: ReplaceText
-              substitutions:
-                - text: my-petservice
-                  with: "#artifactId"
-                - text: PetKind
-                  with: "#petKind"
-                - text: pkgName
-                  with: "#pkgName"
-        - include: ["src/main/java/**"]
-          chain:
-            - type: ReplaceText
-              substitutions:
-                - text: my-petservice
-                  with: "#artifactId"
-                - text: PetKind
-                  with: "#petKind"
-                - text: lowercasePetKind
-                  with: "#petKind.toLowerCase()"
-                - text: com.renamethis
-                  with: "#v"
-            - type: OpenRewriteRecipe
-              recipe: org.openrewrite.java.ChangePackage
-              options:
-                oldFullyQualifiedPackageName: "'com.renamethis'"
-                newFullyQualifiedPackageName: "#pkgName"
-                recursive: true
-        - type: UniquePath
-          strategy: Append
+  merge:
+    - include: ["**/**"]
+      exclude:
+        [
+          "pom.xml",
+          "**/*.java",
+          ".git",
+          "k8s",
+          "src/main/java/**",
+          "applications/**",
+          "ytt/**",
+        ]
+    - include: ["pom.xml"]
+      chain:
+        - type: ReplaceText
+          substitutions:
+            - text: my-petservice
+              with: "#artifactId"
+            - text: PetKind
+              with: "#petKind"
+            - text: pkgName
+              with: "#pkgName"
+    - include: ["**/*.java"]
+      chain:
+        - type: OpenRewriteRecipe
+          recipe: org.openrewrite.java.ChangePackage
+          options:
+            oldPackageName: "'com.renamethis'"
+            newPackageName: "#pkgName"
