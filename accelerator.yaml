@@ -18,6 +18,12 @@ accelerator:
       dataType: string
       defaultValue: org.moussaud.micropets
 engine:
+  exclude:
+    - ".project"
+    - ".settings/**"
+    - ".idea/**"
+    - ".gradle/**"
+    - ".git/**"
   merge:
     - include: ["**/**"]
       exclude:
@@ -41,7 +47,7 @@ engine:
             - text: pkgName
               with: "#pkgName"
     - include: ["**/*.java"]
-      transformations:
+      chain:
         - type: ReplaceText
           substitutions:
             - text: PetKind
@@ -53,3 +59,7 @@ engine:
           options:
             oldPackageName: "'com.renamethis'"
             newPackageName: "#pkgName"
+  chain:
+    - type: RewritePath
+      regex: (.*)PetKind(.*)
+      rewriteTo: "#g1 + #petKind + #g2"

@@ -24,8 +24,9 @@ status:
 publish:
 	git add -A  && git commit -m "accelerator" && git push
 
-generate: push-accelerator
-	-rm -rf generated
+generate: 
+	-rm -rf generated target
+	$(TANZU_ACCELERATOR) push --local-path . --source-image harbor.mytanzu.xyz/library/$(ACCELERATOR_NAME)
 	mkdir generated
 	$(TANZU_ACCELERATOR) generate $(ACCELERATOR_NAME) --server-url http://localhost:8877 --output-dir generated --options-file generate.json
 	cd generated && unzip *.zip 
