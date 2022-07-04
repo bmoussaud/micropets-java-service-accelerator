@@ -64,5 +64,5 @@ engine:
                 oldFullyQualifiedPackageName: "'com.renamethis'"
                 newFullyQualifiedPackageName: "#pkgName"
                 recursive: true
-    - type: UniquePath
-      strategy: Append
+            - type: UniquePath
+              strategy: Append
