@@ -1,7 +1,7 @@
 apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
-  name: my-petservices
+  name: lowercasePetKind
   labels:
     app.kubernetes.io/part-of: micropets-app
     app.tanzu.vmware.com/workload-type: micropet-service-git

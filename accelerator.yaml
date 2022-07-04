@@ -33,6 +33,8 @@ engine:
           "config/**",
           "README.md",
           "Tiltfile",
+          "Makefile",
+          "catalog-info.yaml"
         ]
     - include: ["pom.xml"]
       chain:
@@ -44,7 +46,7 @@ engine:
               with: "#petKind"
             - text: pkgName
               with: "#pkgName"
-    - include: ["config/**", "README.md","Tiltfile"]
+    - include: ["config/**", "README.md","Tiltfile","catalog-info.yaml"]
       chain:
         - type: ReplaceText
           substitutions:

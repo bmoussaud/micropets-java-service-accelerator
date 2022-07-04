@@ -1,16 +1,17 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: birds
-  description: Tanzu Java Web App
+  name: lowercasePetKinds
+  description: Micropet Micro Service App
   tags:
     - app-accelerator
     - java
     - spring
     - web
     - tanzu
+    - micropets
   annotations:
-    'backstage.io/kubernetes-label-selector': 'app.kubernetes.io/part-of=birds'
+    'backstage.io/kubernetes-label-selector': 'app.kubernetes.io/part-of=lowercasePetKinds'
 spec:
   type: service
   lifecycle: experimental
