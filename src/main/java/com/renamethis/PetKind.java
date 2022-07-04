@@ -3,7 +3,7 @@ package com.renamethis;
 import org.springframework.data.annotation.Id;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Bird {
+public class PetKind {
     @Id
     @JsonProperty(value = "Index")
     Integer index;
@@ -26,11 +26,11 @@ public class Bird {
     @JsonProperty(value = "URI")
     String uri;
 
-    public Bird() {
+    public PetKind() {
 
     }
 
-    public Bird(String name, String type, Integer age, String url) {
+    public PetKind(String name, String type, Integer age, String url) {
 
         this.name = name;
         this.age = age;
@@ -40,7 +40,7 @@ public class Bird {
 
     @Override
     public String toString() {
-        return "Bird [age=" + age + ", hostname=" + hostname + ", index=" + index + ", name=" + name + ", type=" + type
+        return "PetKind [age=" + age + ", hostname=" + hostname + ", index=" + index + ", name=" + name + ", type=" + type
                 + ", uri=" + uri + ", url=" + url + "]";
     }
 

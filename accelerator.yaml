@@ -7,7 +7,7 @@ accelerator:
     - spring
     - micropets
   options:
-    - name: petKind
+    - name: PetKind
       label: "Kind"
       display: true
       defaultValue: Snake
@@ -36,8 +36,18 @@ engine:
               substitutions:
                 - text: my-petservice
                   with: "#artifactId"
-                - text: petKind
-                  with: "#petKind"
+                - text: PetKind
+                  with: "#PetKind"
+                - text: pkgName
+                  with: "#pkgName"
+        - include: ["src/main/java/**"]
+          chain:
+            - type: ReplaceText
+              substitutions:
+                - text: my-petservice
+                  with: "#artifactId"
+                - text: PetKind
+                  with: "#PetKind"
                 - text: pkgName
                   with: "#pkgName"
                 

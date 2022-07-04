@@ -11,7 +11,7 @@
 	<artifactId>my-petservice</artifactId>
 	<name>my-petservice</name>
 	<version>0.0.1-SNAPSHOT</version>
-	<description>petKind Service</description>
+	<description>PetKind Service</description>
 
 	<properties>
 		<java.version>11</java.version>

@@ -11,7 +11,7 @@ import java.util.function.Predicate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class BirdSummary {
+public class PetKindSummary {
 
     @JsonProperty(value = "Total")
     int total = 0;
@@ -20,14 +20,14 @@ public class BirdSummary {
     String hostname;
 
     @JsonProperty(value = "Pets")
-    List<Bird> pets = new ArrayList<>();
+    List<PetKind> pets = new ArrayList<>();
 
-    public void addBird(Bird bird) {
-        pets.add(bird);
+    public void addPetKind(PetKind PetKind) {
+        pets.add(PetKind);
         total = total + 1;
         this.hostname = getHostname();
-        bird.hostname = this.hostname;
-        bird.uri = String.format("/birds/v1/data/%d", bird.index);
+        PetKind.hostname = this.hostname;
+        PetKind.uri = String.format("/PetKinds/v1/data/%d", PetKind.index);
     }
 
     private String getHostname() {
@@ -40,17 +40,17 @@ public class BirdSummary {
 
     @Override
     public String toString() {
-        return "BirdSummary [hostname=" + hostname + ", pets=" + pets + ", total=" + total + "]";
+        return "PetKindSummary [hostname=" + hostname + ", pets=" + pets + ", total=" + total + "]";
     }
 
-    public BirdSummary filter() {
+    public PetKindSummary filter() {
         Collections.shuffle(this.pets);
         Random random = new Random();
         int number = random.nextInt(pets.size());
-        this.pets.removeIf(new Predicate<Bird>() {
+        this.pets.removeIf(new Predicate<PetKind>() {
             @Override
-            public boolean test(Bird bird) {
-                return bird.index > number;
+            public boolean test(PetKind PetKind) {
+                return PetKind.index > number;
             }
         });
         this.total = pets.size();
