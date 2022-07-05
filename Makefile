@@ -31,4 +31,7 @@ generate:
 	$(TANZU_ACCELERATOR) generate $(ACCELERATOR_NAME) --server-url http://localhost:8877 --output-dir generated --options-file generate.json
 	cd generated && unzip *.zip 
 	cat generated/$(ACCELERATOR_NAME)/accelerator-log.md
+
+proxy-accelerator:
+	kubectl port-forward service/acc-server -n accelerator-system 8877:80
 	
