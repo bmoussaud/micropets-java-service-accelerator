@@ -1,4 +1,4 @@
-CREATE TABLE bird (
+CREATE TABLE lowercasePetKind (
                 index SERIAL PRIMARY KEY,
                 name VARCHAR(255),
                 type VARCHAR(255),
