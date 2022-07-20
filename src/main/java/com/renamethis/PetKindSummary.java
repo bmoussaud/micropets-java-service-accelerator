@@ -27,7 +27,7 @@ public class PetKindSummary {
         total = total + 1;
         this.hostname = getHostname();
         PetKind.hostname = this.hostname;
-        PetKind.uri = String.format("/PetKinds/v1/data/%d", PetKind.index);
+        PetKind.uri = String.format("/lowercasePetKind/v1/data/%d", PetKind.index);
     }
 
     private String getHostname() {
