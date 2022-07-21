@@ -6,7 +6,7 @@ allow_k8s_contexts('aks-eu-tap-2')
 
 k8s_custom_deploy(
     'lowercasePetKind',
-    apply_cmd="/Users/benoitmoussaud/Downloads/xxxx/cli/distribution/darwin/amd64/cli/apps/v0.7.0/tanzu-apps-darwin_amd64 workload apply -f config/workload.yaml --live-update" +
+    apply_cmd="tanzu apps workload apply -f config/workload.yaml --live-update" +
                " --local-path " + LOCAL_PATH +
                " --source-image " + SOURCE_IMAGE +
                " --namespace " + NAMESPACE +
