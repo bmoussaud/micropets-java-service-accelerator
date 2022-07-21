@@ -17,6 +17,11 @@ accelerator:
       description: The name of the package
       dataType: string
       defaultValue: org.moussaud.micropets
+    - name: imageRegistry
+      label: Image registry
+      description: the image registry 
+      dataType: string
+      defaultValue: harbor.mytanzu.xyz/library
 engine:
   merge:
     - include: ["**/**"]
@@ -57,6 +62,8 @@ engine:
               with: "#petKind"
             - text: lowercasePetKind
               with: "#petKind.toLowerCase()+ 's'" 
+            - text: imageRegistry
+              with: "#imageRegistry.toLowerCase()"
     - include: ["**/*.java"]
       chain:
         - type: ReplaceText

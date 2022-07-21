@@ -1,4 +1,4 @@
-SOURCE_IMAGE = os.getenv("SOURCE_IMAGE", default='harbor.mytanzu.xyz/library/micropet-tap-lowercasePetKind-sources')
+SOURCE_IMAGE = os.getenv("SOURCE_IMAGE", default='imageRegistry/micropet-tap-lowercasePetKind-sources')
 LOCAL_PATH = os.getenv("LOCAL_PATH", default='.')
 NAMESPACE = os.getenv("NAMESPACE", default='dev-tap')
 
