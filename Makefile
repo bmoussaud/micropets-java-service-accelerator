@@ -1,4 +1,4 @@
-TANZU_ACCELERATOR=/Users/benoitmoussaud/Downloads/xxxx/cli/distribution/darwin/amd64/cli/accelerator/v1.2.0/tanzu-accelerator-darwin_amd64   
+TANZU_ACCELERATOR=tanzu accelerator
 ACCELERATOR_NAME=micropet-java-service-accelerator
 
 push-accelerator: 
