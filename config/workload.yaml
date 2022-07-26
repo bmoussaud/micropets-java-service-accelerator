@@ -4,8 +4,9 @@ metadata:
   name: lowercasePetKind
   labels:
     app.kubernetes.io/part-of: micropets-app
-    apps.tanzu.vmware.com/workload-type: micropet-service-git
-spec:  
+    apps.tanzu.vmware.com/workload-type-old: micropet-service-git
+    apps.tanzu.vmware.com/workload-type: web
+spec:
   serviceAccountName: tap-default
   source:
     git:
@@ -16,4 +17,4 @@ spec:
     - name: port
       value: 8080
     - name: observability
-      value: false    
+      value: false
