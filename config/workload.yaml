@@ -4,7 +4,7 @@ metadata:
   name: lowercasePetKind
   labels:
     app.kubernetes.io/part-of: micropets-app
-    app.tanzu.vmware.com/workload-type: micropet-service-git
+    apps.tanzu.vmware.com/workload-type: micropet-service-git
 spec:  
   serviceAccountName: tap-default
   source:

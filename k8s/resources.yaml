@@ -1,11 +1,11 @@
 apiVersion: accelerator.apps.tanzu.vmware.com/v1alpha1
 kind: Accelerator
 metadata:
-  name: micropet-java-service-accelerator
+  name: micropets-java-service-accelerator
   namespace: accelerator-system
 spec:
   git:
-    url: https://github.com/bmoussaud/micropet-java-service-accelerator
+    url: https://github.com/bmoussaud/micropets-java-service-accelerator
     ref:
       branch: main
     interval: 10s

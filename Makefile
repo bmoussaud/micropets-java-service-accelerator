@@ -1,12 +1,12 @@
 TANZU_ACCELERATOR=tanzu accelerator
-ACCELERATOR_NAME=micropet-java-service-accelerator
+ACCELERATOR_NAME=micropets-java-service-accelerator
 
 push-accelerator: 
 	$(TANZU_ACCELERATOR) push --local-path . --source-image harbor.mytanzu.xyz/library/$(ACCELERATOR_NAME)
 
 deploy-git-accelerator:
 #kapp deploy -c -y -a micropet-java-service-accelerator -f ./k8s
-	$(TANZU_ACCELERATOR) create $(ACCELERATOR_NAME) --git-repo https://github.com/bmoussaud/micropet-java-service-accelerator --git-branch main --interval 5s
+	$(TANZU_ACCELERATOR) create $(ACCELERATOR_NAME) --git-repo https://github.com/bmoussaud/micropets-java-service-accelerator --git-branch main --interval 5s
 
 deploy-source-accelerator:
 	$(TANZU_ACCELERATOR) create $(ACCELERATOR_NAME) --local-path . --source-image harbor.mytanzu.xyz/library/$(ACCELERATOR_NAME) --interval 5s
