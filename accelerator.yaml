@@ -21,7 +21,7 @@ accelerator:
       label: Image registry
       description: the image registry 
       dataType: string
-      defaultValue: harbor.mytanzu.xyz/library
+      defaultValue: akseutap2registry.azurecr.io
 engine:
   merge:
     - include: ["**/**"]
