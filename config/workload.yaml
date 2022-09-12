@@ -2,7 +2,7 @@ apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
   name: lowercasePetKind
-  labels:    
+  labels:
     apps.tanzu.vmware.com/workload-type-old: micropet-service-git
     apps.tanzu.vmware.com/workload-type: web
     app.kubernetes.io/part-of: micro-pet
@@ -19,3 +19,6 @@ spec:
       value: 8080
     - name: observability
       value: false
+    - name: annotations
+      value:
+        autoscaling.knative.dev/minScale: "1"
