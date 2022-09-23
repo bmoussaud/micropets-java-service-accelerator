@@ -52,7 +52,7 @@ engine:
               with: "#petKind"
             - text: pkgName
               with: "#pkgName"
-    - include: ["config/**", "README.md","git-repo.sh","Tiltfile","catalog-info.yaml","src/main/resources/schema-h2.sql","src/main/resources/application.yml"]
+    - include: ["config/**", "README.md","git-push.sh","Tiltfile","catalog-info.yaml","src/main/resources/schema-h2.sql","src/main/resources/application.yml"]
       chain:
         - type: ReplaceText
           substitutions:

@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: lowercasePetKinds
+  name: lowercasePetKind
   description: Micropet Micro Service App
   tags:
     - app-accelerator
@@ -11,7 +11,7 @@ metadata:
     - tanzu
     - micropets
   annotations:
-    "backstage.io/kubernetes-label-selector": "app.kubernetes.io/name=lowercasePetKinds"
+    "backstage.io/kubernetes-label-selector": "app.kubernetes.io/name=lowercasePetKind"
 spec:
   type: service
   lifecycle: experimental
