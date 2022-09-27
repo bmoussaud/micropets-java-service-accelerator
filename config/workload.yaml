@@ -2,8 +2,7 @@ apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
   name: lowercasePetKind
-  labels:
-    apps.tanzu.vmware.com/workload-type-old: micropet-service-git
+  labels:    
     apps.tanzu.vmware.com/workload-type: web        
     app.kubernetes.io/name: lowercasePetKind
     app.kubernetes.io/part-of: micropets-app
@@ -12,7 +11,7 @@ spec:
   serviceAccountName: tap-default
   source:
     git:
-      url: https://github.com/bmoussaud/micropets-app/
+      url: https://github.com/bmoussaud/my-lowercasePetKind-svc
       ref:
         branch: master
   params:
