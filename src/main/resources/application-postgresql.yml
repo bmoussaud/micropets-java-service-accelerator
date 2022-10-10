@@ -8,6 +8,6 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   sql:
     init:
-      platform: postgres
+      platform: postgresql
       mode: always      
 

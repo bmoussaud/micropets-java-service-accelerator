@@ -19,9 +19,20 @@ accelerator:
       defaultValue: org.moussaud.micropets.pets
     - name: imageRegistry
       label: Image registry
-      description: the image registry 
+      description: the image registry
       dataType: string
       defaultValue: akseutap2registry.azurecr.io
+    - label: Database Type
+      description: The type of database that services will connenct to.
+      inputType: select
+      defaultValue: h2
+      name: dbType
+      choices:
+        - value: postgresql
+          text: PostgreSQL
+        - value: h2
+          text: H2 (In Memory DB)
+      required: true
 engine:
   merge:
     - include: ["**/**"]
@@ -40,28 +51,37 @@ engine:
           "Tiltfile",
           "Makefile",
           "catalog-info.yaml",
-          "src/main/resources/schema-h2.sql"
+          "src/main/resources/schema-h2.sql",
         ]
     - include: ["pom.xml"]
       chain:
         - type: ReplaceText
           substitutions:
-            - text: my-petservice              
+            - text: my-petservice
               with: "#petKind.toLowerCase()+ 's'"
             - text: PetKind
               with: "#petKind"
             - text: pkgName
               with: "#pkgName"
-    - include: ["config/**", "README.md","git-push.sh","Tiltfile","catalog-info.yaml","src/main/resources/schema-h2.sql","src/main/resources/application.yml"]
+    - include:
+        [
+          "config/**",
+          "README.md",
+          "git-push.sh",
+          "Tiltfile",
+          "catalog-info.yaml",
+          "src/main/resources/schema-h2.sql",
+          "src/main/resources/application.yml",
+        ]
       chain:
         - type: ReplaceText
           substitutions:
             - text: my-petservice
-              with: "#petKind.toLowerCase()+ 's'" 
+              with: "#petKind.toLowerCase()+ 's'"
             - text: PetKind
               with: "#petKind"
             - text: lowercasePetKind
-              with: "#petKind.toLowerCase()+ 's'" 
+              with: "#petKind.toLowerCase()+ 's'"
             - text: imageRegistry
               with: "#imageRegistry.toLowerCase()"
     - include: ["**/*.java"]
@@ -71,7 +91,7 @@ engine:
             - text: PetKind
               with: "#petKind"
             - text: lowercasePetKind
-              with: "#petKind.toLowerCase()+ 's'" 
+              with: "#petKind.toLowerCase()+ 's'"
         - type: OpenRewriteRecipe
           recipe: org.openrewrite.java.ChangePackage
           options:
