@@ -1,5 +1,4 @@
 #@ load("@ytt:data", "data")
-
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -8,15 +7,15 @@ metadata:
     resourceclaims.services.apps.tanzu.vmware.com/controller: "true"
   name: mysql-for-kubernetes-mysqls-service-bindings-role
 rules:
-  - apiGroups: ["with.sql.tanzu.vmware.com"]
-    resources: ["mysqls"]
+  - apiGroups: ["sql.tanzu.vmware.com"]
+    resources: ["postgres"]
     verbs:
       - get
       - list
       - watch
       - update
   - apiGroups:
-      - with.sql.tanzu.vmware.com
+      - sql.tanzu.vmware.com
     resources:
       - mysqls/status
     verbs:
@@ -29,41 +28,41 @@ metadata:
   labels:
     apps.tanzu.vmware.com/aggregate-to-app-operator-cluster-access: "true"
 rules:
-- apiGroups: ["with.sql.tanzu.vmware.com"]
-  resources: ["mysqls"]
-  verbs: ["get", "list", "watch"]
+  - apiGroups: ["sql.tanzu.vmware.com"]
+    resources: ["mysqls"]
+    verbs: ["get", "list", "watch"]
 ---
 apiVersion: services.apps.tanzu.vmware.com/v1alpha1
 kind: ClusterInstanceClass
 metadata:
-  name: mysql
+  name: tanzu-postgres
 spec:
   description:
-    short: MySQL DB Instances
+    short: Tanzun Postgres instances with a postgresql engine
   pool:
-    group: with.sql.tanzu.vmware.com
-    kind: MySQL  
+    group: sql.tanzu.vmware.com
+    kind: MySQL
 ---
 apiVersion: services.apps.tanzu.vmware.com/v1alpha1
 kind: ResourceClaimPolicy
 metadata:
   name: mysql-cross-namespace
-  namespace: #@ data.values.serviceNamespace
+  namespace: shared-services
 spec:
   consumingNamespaces:
-  - '*'
+    - "*"
   subject:
-    group: with.sql.tanzu.vmware.com
-    kind: MySQL
+    group: sql.tanzu.vmware.com/v1
+    kind: Postgres
 ---
 apiVersion: services.apps.tanzu.vmware.com/v1alpha1
 kind: ResourceClaim
 metadata:
-  name: #@ data.values.dbName
-  namespace: #@ data.values.workloadNamespace
+  name: #@ data.values.petKind.lower()+"s-database"
+  namespace: dev-tap
 spec:
   ref:
-    apiVersion: with.sql.tanzu.vmware.com/v1
-    kind: MySQL
-    name: #@ data.values.dbName
-    namespace: #@ data.values.serviceNamespace
+    apiVersion: sql.tanzu.vmware.com/v1
+    kind: Postgres
+    name: #@ data.values.petKind.lower()+"s-database"
+    namespace: shared-services

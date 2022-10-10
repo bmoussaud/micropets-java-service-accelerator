@@ -28,6 +28,7 @@ publish:
 generate: 
 	-rm -rf generated target
 	$(TANZU_ACCELERATOR) push --local-path . --source-image $(REGISTRY)/$(ACCELERATOR_NAME) 
+	sleep 3
 	mkdir generated
 	$(TANZU_ACCELERATOR) generate $(ACCELERATOR_NAME) --server-url http://localhost:8877 --output-dir generated --options-file generate.json
 	cd generated && unzip *.zip 

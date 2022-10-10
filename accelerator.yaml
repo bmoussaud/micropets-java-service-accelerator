@@ -93,7 +93,7 @@ engine:
     - condition: "#createResourceClaim && #dbType == 'postgresql'"
       include: ["**/postgresqlResourceClaim.yaml"]
       chain:
-        - type: YTT
+        - type: YTT          
         - type: RewritePath
           regex: "templates/postgresqlResourceClaim.yaml"
           rewriteTo: "'config/app-operator/postgresqlResourceClaim.yaml'"
