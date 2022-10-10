@@ -33,6 +33,14 @@ accelerator:
         - value: h2
           text: H2 (In Memory DB)
       required: true
+    - label: Create Resource Claim Defintion for Services
+      description: "If set to true, a resource claim definition yaml file for the data services will be created."
+      defaultValue: true
+      name: createResourceClaim
+      inputType: checkbox
+      dataType: boolean
+      required: true
+      hidden: true
 engine:
   merge:
     - include: ["**/**"]
@@ -97,6 +105,13 @@ engine:
           options:
             oldPackageName: "'com.renamethis'"
             newPackageName: "#pkgName"
+    - condition: "#createResourceClaim && #dbType == 'postgresql'"
+      include: ["**/postgresqlResourceClaim.yaml"]
+      chain:
+        - type: YTT
+        - type: RewritePath
+          regex: "templates/postgresqlResourceClaim.yaml"
+          rewriteTo: "'config/app-operator/postgresqlResourceClaim.yaml'"
   chain:
     - type: RewritePath
       regex: (.*)PetKind(.*)
