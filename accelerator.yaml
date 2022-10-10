@@ -42,7 +42,8 @@ accelerator:
       required: true
       hidden: true
 engine:
-  merge:   
+  merge:
+    - include: [".mvn/**", "mvnw", "mvnw.cmd"]
     - include: ["pom.xml"]
       chain:
         - type: ReplaceText
@@ -57,12 +58,13 @@ engine:
         [
           "config/**",
           "README.md",
+          "new_workload.sh",
           "git-push.sh",
           "Tiltfile",
           "catalog-info.yaml",
           "src/main/resources/schema-*.sql",
           "src/main/resources/application.yml",
-          "src/main/resources/application-postgresql.yml",
+          "src/main/resources/application-postgres.yml",
         ]
       chain:
         - type: ReplaceText
@@ -97,6 +99,13 @@ engine:
         - type: RewritePath
           regex: "templates/postgresqlResourceClaim.yaml"
           rewriteTo: "'config/app-operator/postgresqlResourceClaim.yaml'"
+    - condition: "#createResourceClaim && #dbType == 'postgresql'"
+      include: ["**/postgresql.yaml"]
+      chain:
+        - type: YTT
+        - type: RewritePath
+          regex: "templates/postgresql.yaml"
+          rewriteTo: "'config/app-operator/postgresql.yaml'"
   chain:
     - type: RewritePath
       regex: (.*)PetKind(.*)

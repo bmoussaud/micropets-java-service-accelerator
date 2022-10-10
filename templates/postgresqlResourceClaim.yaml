@@ -5,7 +5,7 @@ kind: ClusterRole
 metadata:
   labels:
     resourceclaims.services.apps.tanzu.vmware.com/controller: "true"
-  name: mysql-for-kubernetes-mysqls-service-bindings-role
+  name: #@ data.values.petKind.lower()+"s-resource-claims-postgres"
 rules:
   - apiGroups: ["sql.tanzu.vmware.com"]
     resources: ["postgres"]
@@ -14,23 +14,21 @@ rules:
       - list
       - watch
       - update
-  - apiGroups:
-      - sql.tanzu.vmware.com
-    resources:
-      - mysqls/status
-    verbs:
-      - get
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: mysql-app-operator-reader
+  name: #@ data.values.petKind.lower()+"s-app-operator-reader"
   labels:
     apps.tanzu.vmware.com/aggregate-to-app-operator-cluster-access: "true"
 rules:
   - apiGroups: ["sql.tanzu.vmware.com"]
-    resources: ["mysqls"]
-    verbs: ["get", "list", "watch"]
+    resources: ["postgres"]
+    verbs:
+      - get
+      - list
+      - watch
+      - update
 ---
 apiVersion: services.apps.tanzu.vmware.com/v1alpha1
 kind: ClusterInstanceClass
@@ -38,16 +36,16 @@ metadata:
   name: tanzu-postgres
 spec:
   description:
-    short: Tanzun Postgres instances with a postgresql engine
+    short: Tanzu Postgres instances with a postgresql engine
   pool:
     group: sql.tanzu.vmware.com
-    kind: MySQL
+    kind: Postgres
 ---
 apiVersion: services.apps.tanzu.vmware.com/v1alpha1
 kind: ResourceClaimPolicy
 metadata:
-  name: mysql-cross-namespace
-  namespace: shared-services
+  name: pgsql-cross-namespace
+  namespace: dev-tap
 spec:
   consumingNamespaces:
     - "*"
@@ -65,4 +63,4 @@ spec:
     apiVersion: sql.tanzu.vmware.com/v1
     kind: Postgres
     name: #@ data.values.petKind.lower()+"s-database"
-    namespace: shared-services
+    namespace: dev-tap

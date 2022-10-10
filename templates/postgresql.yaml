@@ -1,0 +1,15 @@
+#@ load("@ytt:data", "data")
+---
+apiVersion: sql.tanzu.vmware.com/v1
+kind: Postgres
+metadata:
+  name: #@ data.values.petKind.lower()+"s-database"
+spec:
+  memory: 800Mi
+  cpu: "0.8"    
+  pgConfig:
+    dbname: #@ data.values.petKind.lower()+"s-database"
+    username: pgadmin
+    appUser: admin
+  highAvailability:
+    enabled: false

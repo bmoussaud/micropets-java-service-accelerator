@@ -3,11 +3,12 @@ spring:
     url: jdbc:postgresql://localhost:5432/petclinic
     username: ${PGSQL_USER:petclinic}
     password: ${PGSQL_PASSWORD:petclinic}
-    driverClassName: org.h2.Driver    
+    driverClassName: org.postgresql.Driver    
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   sql:
     init:
-      platform: postgresql
-      mode: always      
+      platform: postgres
+      mode: always     
+      continue-on-error: true 
 

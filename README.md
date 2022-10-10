@@ -11,6 +11,7 @@ It provides the framework to enhance the MicroPet Application
 
 ## Running the sample
 
+
 Start the app deployment by running:
 
 ```
@@ -26,3 +27,52 @@ You can hit the spacebar to open the UI in a browser.
         allow_k8s_contexts('tap-beta2')
     to your Tiltfile. Otherwise, switch k8s contexts and restart Tilt.
     ```
+## Usefull commands 
+
+### With the Kubernetes
+
+Configure a new database and the service bindings
+
+````
+kubectl apply -f config/app-operator
+````
+
+Clean up additional resources, including database
+````
+kubectl delete -f config/app-operator
+kubectl delete workloads.carto.run lowercasePetKind
+````
+
+
+### With the Database
+
+```
+kubectl exec -ti pod/lowercasePetKind-database-0 -- pg_autoctl show state
+```
+```
+kubectl exec -it lowercasePetKind-database-0 -- bash -c "psql"
+postgres-# \l
+                                                          List of databases
+      Name       |           Owner           | Encoding | Collate |  Ctype  |                    Access privileges
+-----------------+---------------------------+----------+---------+---------+---------------------------------------------------------
+ postgres        | postgres                  | UTF8     | C.UTF-8 | C.UTF-8 | postgres=CTc/postgres                                  +
+                 |                           |          |         |         | pgautofailover_monitor=c/postgres                      +
+                 |                           |          |         |         | postgres_exporter=c/postgres
+ lowercasePetKind-database | pgautofailover_replicator | UTF8     | C.UTF-8 | C.UTF-8 | pgautofailover_replicator=CTc/pgautofailover_replicator+
+                 |                           |          |         |         | admin=CTc/pgautofailover_replicator
+ template0       | postgres                  | UTF8     | C.UTF-8 | C.UTF-8 | =c/postgres                                            +
+                 |                           |          |         |         | postgres=CTc/postgres
+ template1       | postgres                  | UTF8     | C.UTF-8 | C.UTF-8 | =c/postgres                                            +
+                 |                           |          |         |         | postgres=CTc/postgres
+(4 rows)
+postgres-# \c lowercasePetKind-database
+You are now connected to database "lowercasePetKind-database" as user "postgres".
+lowercasePetKind-database=#
+lowercasePetKind-database=# \dt
+       List of relations
+ Schema | Name  | Type  | Owner
+--------+-------+-------+-------
+ public | PetKind | table | admin
+(1 row)
+lowercasePetKind-database=# select * from PetKind;
+```
