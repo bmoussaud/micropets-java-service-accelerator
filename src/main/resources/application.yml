@@ -5,14 +5,13 @@ spring:
     url: jdbc:h2:mem:mydb
     username: sa
     password: password
-    driverClassName: org.h2.Driver
+    driverClassName: org.h2.Driver    
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
   sql:
     init:
       platform: h2
-      mode: always
-      
+      mode: always      
 management:
   endpoints:
     web:
