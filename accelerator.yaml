@@ -42,25 +42,7 @@ accelerator:
       required: true
       hidden: true
 engine:
-  merge:
-    - include: ["**/**"]
-      exclude:
-        [
-          "pom.xml",
-          "**/*.java",
-          ".git",
-          "k8s",
-          "src/main/java/**",
-          "applications/**",
-          "ytt/**",
-          "k8s/**",
-          "config/**",
-          "README.md",
-          "Tiltfile",
-          "Makefile",
-          "catalog-info.yaml",
-          "src/main/resources/schema-h2.sql",
-        ]
+  merge:   
     - include: ["pom.xml"]
       chain:
         - type: ReplaceText
@@ -78,8 +60,9 @@ engine:
           "git-push.sh",
           "Tiltfile",
           "catalog-info.yaml",
-          "src/main/resources/schema-h2.sql",
+          "src/main/resources/schema-*.sql",
           "src/main/resources/application.yml",
+          "src/main/resources/application-postgresql.yml",
         ]
       chain:
         - type: ReplaceText
@@ -92,6 +75,8 @@ engine:
               with: "#petKind.toLowerCase()+ 's'"
             - text: imageRegistry
               with: "#imageRegistry.toLowerCase()"
+            - text: PET_KIND
+              with: "#petKind"
     - include: ["**/*.java"]
       chain:
         - type: ReplaceText
