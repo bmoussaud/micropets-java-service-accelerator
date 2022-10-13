@@ -32,7 +32,7 @@ public class PetKindSummary {
 
     private String getHostname() {
         try {
-            return InetAddress.getLocalHost().getHostAddress();
+            return InetAddress.getLocalHost().toString();
         } catch (UnknownHostException e) {
             return "Unknown";
         }
