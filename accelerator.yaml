@@ -58,8 +58,9 @@ engine:
         [
           "config/**",
           "README.md",
-          "new_workload.sh",
+          "apply_workload.sh",
           "git-push.sh",
+          "clean.sh",
           "Tiltfile",
           "catalog-info.yaml",
           "src/main/resources/schema-*.sql",
