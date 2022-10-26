@@ -14,7 +14,7 @@ spec:
     git:
       url: https://github.com/bmoussaud/my-lowercasePetKind-svc
       ref:
-        branch: master
+        branch: main
   env:
   - name: SPRING_PROFILES_ACTIVE
     value: postgres

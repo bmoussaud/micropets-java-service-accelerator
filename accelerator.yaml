@@ -57,6 +57,8 @@ engine:
     - include:
         [
           "config/**",
+          ".gitignore",
+          ".tanzuignore",
           "README.md",
           "apply_workload.sh",
           "git-push.sh",
