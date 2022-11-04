@@ -26,11 +26,9 @@ publish:
 	git add -A  && git commit -m "accelerator" && git push
 
 generate: 
-	-rm -rf generated target
-	$(TANZU_ACCELERATOR) push --local-path . --source-image $(REGISTRY)/$(ACCELERATOR_NAME) 
-	sleep 3
+	-rm -rf generated target	
 	mkdir generated
-	$(TANZU_ACCELERATOR) generate $(ACCELERATOR_NAME) --server-url http://localhost:8877 --output-dir generated --options-file generate.json
+	$(TANZU_ACCELERATOR) generate $(ACCELERATOR_NAME) --server-url http://accelerator.tap3.eu.aks.mytanzu.xyz --output-dir generated --options-file generate.json
 	cd generated && unzip *.zip 
 	cat generated/$(ACCELERATOR_NAME)/accelerator-log.md
 
