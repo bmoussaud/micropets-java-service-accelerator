@@ -1,0 +1,217 @@
+#@ load("@ytt:data", "data")
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: #@ data.values.resourcesNamespace
+---
+apiVersion: resources.azure.com/v1beta20200601
+kind: ResourceGroup
+metadata:
+  name: #@ data.values.resourcesNamespace
+  namespace: #@ data.values.resourcesNamespace
+spec:
+  location: #@ data.values.azureLocation
+---
+apiVersion: secretgen.k14s.io/v1alpha1
+kind: Password
+metadata:
+  name: #@ data.values.petKind.lower()+"s-psql-secret"
+  namespace: #@ data.values.resourcesNamespace
+spec:
+  length: 24
+  secretTemplate:
+    type: Opaque
+    stringData:
+      password: 123%ABC#$(value)
+---
+apiVersion: dbforpostgresql.azure.com/v1beta20210601
+kind: FlexibleServersDatabase
+metadata:
+  name: #@ data.values.petKind.lower()+"s-psql"
+  namespace: #@ data.values.resourcesNamespace
+spec:
+  azureName: #@ data.values.petKind.lower()+"s-psql-"+ "demo"
+  owner:
+    name: #@ data.values.petKind.lower()+"s-psql-srv"
+  charset: utf8
+---
+apiVersion: dbforpostgresql.azure.com/v1beta20210601
+kind: FlexibleServersFirewallRule
+metadata:
+  name: #@ data.values.petKind.lower()+"s-psql-fw"
+  namespace: #@ data.values.resourcesNamespace
+spec:
+  owner:
+    name: #@ data.values.petKind.lower()+"s-psql-srv"
+  startIpAddress: 0.0.0.0 
+  endIpAddress: 255.255.255.255
+---
+apiVersion: dbforpostgresql.azure.com/v1beta20210601
+kind: FlexibleServer
+metadata:
+  name: #@ data.values.petKind.lower()+"s-psql-srv"
+  namespace: #@ data.values.resourcesNamespace
+spec:
+  location: #@ data.values.azureLocation
+  azureName: #@ data.values.petKind.lower()+"s-"+"demo"
+  owner:
+    name: #@ data.values.resourcesNamespace
+  version: "14"
+  sku:
+    name: Standard_B1ms
+    tier: Burstable
+  administratorLogin: myAdmin
+  administratorLoginPassword:
+    name: #@ data.values.petKind.lower()+"s-psql-secret"
+    key: password
+  storage:
+    storageSizeGB: 32
+  backup:
+    backupRetentionDays: 7
+    geoRedundantBackup: Disabled
+---
+apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+kind: ClusterInstanceClass
+metadata:
+  name: azure-postgres
+spec:
+  description:
+    short: Azure Flexible Server instances with a postgresql engine
+  pool:
+    kind: Secret
+    labelSelector:
+      matchLabels:
+        services.apps.tanzu.vmware.com/class: azure-postgres
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: servicebinding-controller-secret-reader
+  labels:
+    servicebinding.io/controller: "true"
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - get
+      - list
+      - watch
+---
+apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+kind: ResourceClaimPolicy
+metadata:
+  name: #@ "developer-in-"+data.values.devNamespace+"-can-claim-azure-postgres"
+  namespace: #@ data.values.resourcesNamespace
+spec:
+  subject:
+    kind: Secret
+    group: ""
+    selector:
+      matchLabels:
+        services.apps.tanzu.vmware.com/class: azure-postgres
+  consumingNamespaces:
+    -  #@ data.values.devNamespace
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: #@ data.values.petKind.lower()+"s-psql-reader"
+  namespace: #@ data.values.resourcesNamespace
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: #@ data.values.petKind.lower()+"s-psql-reading"
+  namespace: #@ data.values.resourcesNamespace
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - get
+      - list
+      - watch
+    resourceNames:
+      - #@ data.values.petKind.lower()+"s-psql-secret"
+  - apiGroups:      
+      - dbforpostgresql.azure.com
+    resources:
+      - flexibleservers
+      - flexibleserversdatabases
+    verbs:
+      - get
+      - list
+      - watch
+      - fetch
+    resourceNames:
+      - #@ data.values.petKind.lower()+"s-psql"
+      - #@ data.values.petKind.lower()+"s-psql-srv"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: #@ data.values.petKind.lower()+"s-psql-reader-to-read"
+  namespace: #@ data.values.resourcesNamespace
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: #@ data.values.petKind.lower()+"s-psql-reading"
+subjects:
+  - kind: ServiceAccount
+    name: #@ data.values.petKind.lower()+"s-psql-reader"
+    namespace: #@ data.values.resourcesNamespace
+---
+apiVersion: secretgen.carvel.dev/v1alpha1
+kind: SecretTemplate
+metadata:
+  name: #@ data.values.petKind.lower()+"s-psql-bindable"
+  namespace: #@ data.values.resourcesNamespace
+spec:
+  serviceAccountName: #@ data.values.petKind.lower()+"s-psql-reader"
+  inputResources:
+    - name: server
+      ref:
+        apiVersion: dbforpostgresql.azure.com/v1alpha1api20210601
+        kind: FlexibleServer
+        name: #@ data.values.petKind.lower()+"s-psql-srv"
+    - name: db
+      ref:
+        apiVersion: dbforpostgresql.azure.com/v1alpha1api20210601
+        kind: FlexibleServersDatabase
+        name: #@ data.values.petKind.lower()+"s-psql"
+    - name: creds
+      ref:
+        apiVersion: v1
+        kind: Secret
+        name: "$(.server.spec.administratorLoginPassword.name)"
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: #@ data.values.petKind.lower()+"s-psql"
+        app.kubernetes.io/instance: "$(.server.metadata.name)"
+        services.apps.tanzu.vmware.com/class: azure-postgres
+    type: postgresql
+    stringData:
+      type: postgresql
+      port: "5432"
+      database: "$(.db.status.name)"
+      host: "$(.server.status.fullyQualifiedDomainName)"
+      username: "$(.server.status.administratorLogin)"
+    data:
+      password: "$(.creds.data.password)"
+---
+apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+kind: ResourceClaim
+metadata:
+  name: #@ data.values.petKind.lower()+"s-psql-bindable"
+  namespace: #@ data.values.devNamespace
+spec:
+  ref:
+    apiVersion: v1
+    kind: Secret
+    name: #@ data.values.petKind.lower()+"s-psql-bindable"
+    namespace: #@ data.values.resourcesNamespace

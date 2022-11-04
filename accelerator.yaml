@@ -47,6 +47,9 @@ accelerator:
     - name: devNamespace
       hidden: true
       defaultValue: dev-tap
+    - name: azureLocation
+      hidden: true
+      defaultValue: francecentral
 engine:
   merge:
     - include: [".mvn/**", "mvnw", "mvnw.cmd"]
@@ -108,6 +111,13 @@ engine:
         - type: RewritePath
           regex: "templates/tanzu-postgresql.yaml"
           rewriteTo: "'config/app-operator/tanzu-postgresql.yaml'"
+    - condition: "#createResourceClaim && #dbType == 'postgresql'"
+      include: ["**/azure-postgresql.yaml"]
+      chain:
+        - type: YTT
+        - type: RewritePath
+          regex: "templates/azure-postgresql.yaml"
+          rewriteTo: "'config/app-operator/azure-postgresql.yaml'"
   chain:
     - type: RewritePath
       regex: (.*)PetKind(.*)
