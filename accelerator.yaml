@@ -96,18 +96,18 @@ engine:
             oldPackageName: "'com.renamethis'"
             newPackageName: "#pkgName"
     - condition: "#createResourceClaim && #dbType == 'postgresql'"
-      include: ["**/postgresqlResourceClaim.yaml"]
+      include: ["**/tanzu/postgresqlResourceClaim.yaml"]
       chain:
         - type: YTT          
         - type: RewritePath
-          regex: "templates/postgresqlResourceClaim.yaml"
+          regex: "templates/tanzu/postgresqlResourceClaim.yaml"
           rewriteTo: "'config/app-operator/postgresqlResourceClaim.yaml'"
     - condition: "#createResourceClaim && #dbType == 'postgresql'"
-      include: ["**/postgresql.yaml"]
+      include: ["**/tanzu/postgresql.yaml"]
       chain:
         - type: YTT
         - type: RewritePath
-          regex: "templates/postgresql.yaml"
+          regex: "templates/tanzu/postgresql.yaml"
           rewriteTo: "'config/app-operator/postgresql.yaml'"
   chain:
     - type: RewritePath
