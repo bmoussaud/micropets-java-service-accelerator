@@ -102,12 +102,12 @@ engine:
             oldPackageName: "'com.renamethis'"
             newPackageName: "#pkgName"    
     - condition: "#createResourceClaim && #dbType == 'postgresql'"
-      include: ["**/tanzu/postgresql.yaml"]
+      include: ["**/tanzu-postgresql.yaml"]
       chain:
         - type: YTT
         - type: RewritePath
-          regex: "templates/tanzu/postgresql.yaml"
-          rewriteTo: "'config/app-operator/postgresql.yaml'"
+          regex: "templates/tanzu-postgresql.yaml"
+          rewriteTo: "'config/app-operator/tanzu-postgresql.yaml'"
   chain:
     - type: RewritePath
       regex: (.*)PetKind(.*)
