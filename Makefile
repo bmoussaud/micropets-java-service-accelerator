@@ -35,5 +35,6 @@ generate:
 proxy-accelerator:
 	kubectl port-forward service/acc-server -n accelerator-system 8877:80
 	
+# if ""URI is not absolute" or "accelerator-system   micropets-java-service-accelerator    False   ImageRepositoryResolutionFailed   64s"
 deploy-secret:
 	kubectl create secret docker-registry regsecrets --namespace accelerator-system --docker-server=$(REGISTRY) --docker-username=$(INSTALL_REGISTRY_USERNAME) --docker-password=$(INSTALL_REGISTRY_PASSWORD)
