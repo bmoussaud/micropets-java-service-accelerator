@@ -41,6 +41,12 @@ accelerator:
       dataType: boolean
       required: true
       hidden: true
+    - name: resourcesNamespace
+      hidden: true
+      defaultValue: database-instances-fr
+    - name: devNamespace
+      hidden: true
+      defaultValue: dev-tap
 engine:
   merge:
     - include: [".mvn/**", "mvnw", "mvnw.cmd"]
@@ -94,14 +100,7 @@ engine:
           recipe: org.openrewrite.java.ChangePackage
           options:
             oldPackageName: "'com.renamethis'"
-            newPackageName: "#pkgName"
-    - condition: "#createResourceClaim && #dbType == 'postgresql'"
-      include: ["**/tanzu/postgresqlResourceClaim.yaml"]
-      chain:
-        - type: YTT          
-        - type: RewritePath
-          regex: "templates/tanzu/postgresqlResourceClaim.yaml"
-          rewriteTo: "'config/app-operator/postgresqlResourceClaim.yaml'"
+            newPackageName: "#pkgName"    
     - condition: "#createResourceClaim && #dbType == 'postgresql'"
       include: ["**/tanzu/postgresql.yaml"]
       chain:

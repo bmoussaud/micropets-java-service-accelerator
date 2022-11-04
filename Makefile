@@ -1,6 +1,6 @@
 TANZU_ACCELERATOR=tanzu accelerator
 ACCELERATOR_NAME=micropets-java-service-accelerator
-REGISTRY=akseutap2registry.azurecr.io
+REGISTRY=akseutap3registry.azurecr.io
 
 push-accelerator: 
 	$(TANZU_ACCELERATOR) push --local-path . --source-image $(REGISTRY)/$(ACCELERATOR_NAME) 

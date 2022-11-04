@@ -1,15 +1,91 @@
 #@ load("@ytt:data", "data")
 ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: #@ data.values.resourcesNamespace
+---
 apiVersion: sql.tanzu.vmware.com/v1
 kind: Postgres
 metadata:
   name: #@ data.values.petKind.lower()+"s-database"
+  namespace: #@ data.values.resourcesNamespace
 spec:
   memory: 800Mi
-  cpu: "0.8"    
+  cpu: "0.8"
   pgConfig:
     dbname: #@ data.values.petKind.lower()+"s-database"
     username: pgadmin
     appUser: admin
   highAvailability:
     enabled: false
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    servicebinding.io/controller: "true"
+    resourceclaims.services.apps.tanzu.vmware.com/controller: "true"
+  name: #@ data.values.petKind.lower()+"s-servicebinding-controller-postgres-reader"
+rules:
+  - apiGroups:
+      - sql.tanzu.vmware.com
+    resources:
+      - postgres
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: #@ data.values.petKind.lower()+"s-app-operator-reader"
+  labels:
+    apps.tanzu.vmware.com/aggregate-to-app-operator-cluster-access: "true"
+rules:
+  - apiGroups:
+      - sql.tanzu.vmware.com
+    resources:
+      - postgres
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+---
+apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+kind: ClusterInstanceClass
+metadata:
+  name: tanzu-postgres
+spec:
+  description:
+    short: Tanzu Postgres instances with a postgresql engine
+  pool:
+    group: sql.tanzu.vmware.com
+    kind: Postgres
+---
+apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+kind: ResourceClaimPolicy
+metadata:
+  name: #@ data.values.petKind.lower()+"s-developer-in-"+data.values.devNamespace+"-can-claim-any-pgsql"
+  namespace: #@ data.values.resourcesNamespace
+spec:
+  consumingNamespaces:
+    -  #@ data.values.devNamespace
+  subject:
+    group: sql.tanzu.vmware.com
+    kind: Postgres
+---
+apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+kind: ResourceClaim
+metadata:
+  name: #@ data.values.petKind.lower()+"s-database"
+  namespace: #@ data.values.devNamespace
+spec:
+  ref:
+    apiVersion: sql.tanzu.vmware.com/v1
+    kind: Postgres
+    name: #@ data.values.petKind.lower()+"s-database"
+    namespace: #@ data.values.resourcesNamespace
