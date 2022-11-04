@@ -81,7 +81,7 @@ spec:
 apiVersion: services.apps.tanzu.vmware.com/v1alpha1
 kind: ResourceClaim
 metadata:
-  name: #@ data.values.petKind.lower()+"s-database"
+  name: #@ data.values.petKind.lower()+"s-tanzu-database"
   namespace: #@ data.values.devNamespace
 spec:
   ref:

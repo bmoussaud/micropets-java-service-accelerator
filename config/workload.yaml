@@ -2,8 +2,8 @@ apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
   name: lowercasePetKind
-  labels:    
-    apps.tanzu.vmware.com/workload-type: web        
+  labels:
+    apps.tanzu.vmware.com/workload-type: web
     app.kubernetes.io/name: lowercasePetKind
     app.kubernetes.io/part-of: micropets-app
     micropets/kind: backend
@@ -16,21 +16,26 @@ spec:
       ref:
         branch: main
   env:
-  - name: SPRING_PROFILES_ACTIVE
-    value: postgres
+    - name: SPRING_PROFILES_ACTIVE
+      value: postgres
   serviceClaims:
-  - name: lowercasePetKind-database
-    ref:
-      apiVersion: sql.tanzu.vmware.com/v1
-      kind: Postgres
-      name: lowercasePetKind-database
+    - name: lowercasePetKind-tanzu-database
+      ref:
+        apiVersion: sql.tanzu.vmware.com/v1
+        kind: Postgres
+        name: lowercasePetKind-tanzu-database
+    - name: lowercasePetKind-azure-database
+      ref:
+        apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+        kind: ResourceClaim
+        name: lowercasePetKind-azure-database
   params:
     - name: gitops_server_address
       value: https://github.com/
     - name: gitops_repository_owner
       value: bmoussaud
     - name: gitops_repository_name
-      value: micropets-app-gitops 
+      value: micropets-app-gitops
     - name: port
       value: 8080
     - name: observability
