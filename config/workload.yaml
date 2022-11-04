@@ -25,6 +25,12 @@ spec:
       kind: Postgres
       name: lowercasePetKind-database
   params:
+    - name: gitops_server_address
+      value: https://github.com/
+    - name: gitops_repository_owner
+      value: bmoussaud
+    - name: gitops_repository_name
+      value: micropets-app-gitops 
     - name: port
       value: 8080
     - name: observability
