@@ -11,7 +11,7 @@ public class PetKind {
     @JsonProperty(value = "Name")
     String name;
 
-    @JsonProperty(value = "Type")
+    @JsonProperty(value = "Kind")
     String type;
 
     @JsonProperty(value = "Age")
