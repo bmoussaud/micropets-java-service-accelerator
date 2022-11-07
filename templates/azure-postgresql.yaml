@@ -16,7 +16,7 @@ spec:
 apiVersion: secretgen.k14s.io/v1alpha1
 kind: Password
 metadata:
-  name: #@ data.values.petKind.lower()+"s-psql-secret"
+  name: #@ data.values.lowerPluralPetKind+"-psql-secret"
   namespace: #@ data.values.resourcesNamespace
 spec:
   length: 24
@@ -28,33 +28,33 @@ spec:
 apiVersion: dbforpostgresql.azure.com/v1beta20210601
 kind: FlexibleServersDatabase
 metadata:
-  name: #@ data.values.petKind.lower()+"s-psql"
+  name: #@ data.values.lowerPluralPetKind+"-psql"
   namespace: #@ data.values.resourcesNamespace
 spec:
-  azureName: #@ data.values.petKind.lower()+"s-psql-"+ "demo"
+  azureName: #@ data.values.lowerPluralPetKind+"-psql-"+ "demo"
   owner:
-    name: #@ data.values.petKind.lower()+"s-psql-srv"
+    name: #@ data.values.lowerPluralPetKind+"-psql-srv"
   charset: utf8
 ---
 apiVersion: dbforpostgresql.azure.com/v1beta20210601
 kind: FlexibleServersFirewallRule
 metadata:
-  name: #@ data.values.petKind.lower()+"s-psql-fw"
+  name: #@ data.values.lowerPluralPetKind+"-psql-fw"
   namespace: #@ data.values.resourcesNamespace
 spec:
   owner:
-    name: #@ data.values.petKind.lower()+"s-psql-srv"
+    name: #@ data.values.lowerPluralPetKind+"-psql-srv"
   startIpAddress: 0.0.0.0 
   endIpAddress: 255.255.255.255
 ---
 apiVersion: dbforpostgresql.azure.com/v1beta20210601
 kind: FlexibleServer
 metadata:
-  name: #@ data.values.petKind.lower()+"s-psql-srv"
+  name: #@ data.values.lowerPluralPetKind+"-psql-srv"
   namespace: #@ data.values.resourcesNamespace
 spec:
   location: #@ data.values.azureLocation
-  azureName: #@ data.values.petKind.lower()+"s-"+"demo"
+  azureName: #@ data.values.lowerPluralPetKind+"-"+"demo"
   owner:
     name: #@ data.values.resourcesNamespace
   version: "14"
@@ -63,7 +63,7 @@ spec:
     tier: Burstable
   administratorLogin: myAdmin
   administratorLoginPassword:
-    name: #@ data.values.petKind.lower()+"s-psql-secret"
+    name: #@ data.values.lowerPluralPetKind+"-psql-secret"
     key: password
   storage:
     storageSizeGB: 32
@@ -118,13 +118,13 @@ spec:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: #@ data.values.petKind.lower()+"s-psql-reader"
+  name: #@ data.values.lowerPluralPetKind+"-psql-reader"
   namespace: #@ data.values.resourcesNamespace
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: #@ data.values.petKind.lower()+"s-psql-reading"
+  name: #@ data.values.lowerPluralPetKind+"-psql-reading"
   namespace: #@ data.values.resourcesNamespace
 rules:
   - apiGroups:
@@ -136,7 +136,7 @@ rules:
       - list
       - watch
     resourceNames:
-      - #@ data.values.petKind.lower()+"s-psql-secret"
+      - #@ data.values.lowerPluralPetKind+"-psql-secret"
   - apiGroups:      
       - dbforpostgresql.azure.com
     resources:
@@ -148,41 +148,41 @@ rules:
       - watch
       - fetch
     resourceNames:
-      - #@ data.values.petKind.lower()+"s-psql"
-      - #@ data.values.petKind.lower()+"s-psql-srv"
+      - #@ data.values.lowerPluralPetKind+"-psql"
+      - #@ data.values.lowerPluralPetKind+"-psql-srv"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: #@ data.values.petKind.lower()+"s-psql-reader-to-read"
+  name: #@ data.values.lowerPluralPetKind+"-psql-reader-to-read"
   namespace: #@ data.values.resourcesNamespace
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: #@ data.values.petKind.lower()+"s-psql-reading"
+  name: #@ data.values.lowerPluralPetKind+"-psql-reading"
 subjects:
   - kind: ServiceAccount
-    name: #@ data.values.petKind.lower()+"s-psql-reader"
+    name: #@ data.values.lowerPluralPetKind+"-psql-reader"
     namespace: #@ data.values.resourcesNamespace
 ---
 apiVersion: secretgen.carvel.dev/v1alpha1
 kind: SecretTemplate
 metadata:
-  name: #@ data.values.petKind.lower()+"s-psql-bindable"
+  name: #@ data.values.lowerPluralPetKind+"-psql-bindable"
   namespace: #@ data.values.resourcesNamespace
 spec:
-  serviceAccountName: #@ data.values.petKind.lower()+"s-psql-reader"
+  serviceAccountName: #@ data.values.lowerPluralPetKind+"-psql-reader"
   inputResources:
     - name: server
       ref:
         apiVersion: dbforpostgresql.azure.com/v1alpha1api20210601
         kind: FlexibleServer
-        name: #@ data.values.petKind.lower()+"s-psql-srv"
+        name: #@ data.values.lowerPluralPetKind+"-psql-srv"
     - name: db
       ref:
         apiVersion: dbforpostgresql.azure.com/v1alpha1api20210601
         kind: FlexibleServersDatabase
-        name: #@ data.values.petKind.lower()+"s-psql"
+        name: #@ data.values.lowerPluralPetKind+"-psql"
     - name: creds
       ref:
         apiVersion: v1
@@ -191,7 +191,7 @@ spec:
   template:
     metadata:
       labels:
-        app.kubernetes.io/component: #@ data.values.petKind.lower()+"s-psql"
+        app.kubernetes.io/component: #@ data.values.lowerPluralPetKind+"-psql"
         app.kubernetes.io/instance: "$(.server.metadata.name)"
         services.apps.tanzu.vmware.com/class: azure-postgres
     type: postgresql
@@ -207,11 +207,11 @@ spec:
 apiVersion: services.apps.tanzu.vmware.com/v1alpha1
 kind: ResourceClaim
 metadata:
-  name: #@ data.values.petKind.lower()+"s-azure-database"
+  name: #@ data.values.lowerPluralPetKind+"-azure-database"
   namespace: #@ data.values.devNamespace
 spec:
   ref:
     apiVersion: v1
     kind: Secret
-    name: #@ data.values.petKind.lower()+"s-psql-bindable"
+    name: #@ data.values.lowerPluralPetKind+"-psql-bindable"
     namespace: #@ data.values.resourcesNamespace

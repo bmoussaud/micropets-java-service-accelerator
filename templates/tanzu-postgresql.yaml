@@ -8,13 +8,13 @@ metadata:
 apiVersion: sql.tanzu.vmware.com/v1
 kind: Postgres
 metadata:
-  name: #@ data.values.petKind.lower()+"s-database"
+  name: #@ data.values.lowerPluralPetKind+"-database"
   namespace: #@ data.values.resourcesNamespace
 spec:
   memory: 800Mi
   cpu: "0.8"
   pgConfig:
-    dbname: #@ data.values.petKind.lower()+"s-database"
+    dbname: #@ data.values.lowerPluralPetKind+"-database"
     username: pgadmin
     appUser: admin
   highAvailability:
@@ -26,7 +26,7 @@ metadata:
   labels:
     servicebinding.io/controller: "true"
     resourceclaims.services.apps.tanzu.vmware.com/controller: "true"
-  name: #@ data.values.petKind.lower()+"s-servicebinding-controller-postgres-reader"
+  name: #@ data.values.lowerPluralPetKind+"-servicebinding-controller-postgres-reader"
 rules:
   - apiGroups:
       - sql.tanzu.vmware.com
@@ -41,7 +41,7 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: #@ data.values.petKind.lower()+"s-app-operator-reader"
+  name: #@ data.values.lowerPluralPetKind+"-app-operator-reader"
   labels:
     apps.tanzu.vmware.com/aggregate-to-app-operator-cluster-access: "true"
 rules:
@@ -69,7 +69,7 @@ spec:
 apiVersion: services.apps.tanzu.vmware.com/v1alpha1
 kind: ResourceClaimPolicy
 metadata:
-  name: #@ data.values.petKind.lower()+"s-developer-in-"+data.values.devNamespace+"-can-claim-any-pgsql"
+  name: #@ data.values.lowerPluralPetKind+"-developer-in-"+data.values.devNamespace+"-can-claim-any-pgsql"
   namespace: #@ data.values.resourcesNamespace
 spec:
   consumingNamespaces:
@@ -81,11 +81,11 @@ spec:
 apiVersion: services.apps.tanzu.vmware.com/v1alpha1
 kind: ResourceClaim
 metadata:
-  name: #@ data.values.petKind.lower()+"s-tanzu-database"
+  name: #@ data.values.lowerPluralPetKind+"-tanzu-database"
   namespace: #@ data.values.devNamespace
 spec:
   ref:
     apiVersion: sql.tanzu.vmware.com/v1
     kind: Postgres
-    name: #@ data.values.petKind.lower()+"s-database"
+    name: #@ data.values.lowerPluralPetKind+"-database"
     namespace: #@ data.values.resourcesNamespace

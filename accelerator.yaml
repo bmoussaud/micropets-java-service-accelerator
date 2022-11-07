@@ -49,6 +49,8 @@ engine:
       expression: "'database-instances-fr'"
     - name: azureLocation
       expression: "'francecentral'"
+    - name: lowerPluralPetKind
+      expression: "#petKind.toLowerCase()+'s'"
   chain:
     - merge:
         - include: [".mvn/**", "mvnw", "mvnw.cmd"]
