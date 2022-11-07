@@ -59,7 +59,7 @@ engine:
             - type: ReplaceText
               substitutions:
                 - text: my-petservice
-                  with: "#petKind.toLowerCase()+ 's'"
+                  with: "#lowerPluralPetKind"
                 - text: PetKind
                   with: "#petKind"
                 - text: pkgName
@@ -83,11 +83,11 @@ engine:
             - type: ReplaceText
               substitutions:
                 - text: my-petservice
-                  with: "#petKind.toLowerCase()+ 's'"
+                  with: "#lowerPluralPetKind"
                 - text: PetKind
                   with: "#petKind"
                 - text: lowercasePetKind
-                  with: "#petKind.toLowerCase()+ 's'"
+                  with: "#lowerPluralPetKind"
                 - text: imageRegistry
                   with: "#imageRegistry.toLowerCase()"
                 - text: PET_KIND
@@ -99,7 +99,7 @@ engine:
                 - text: PetKind
                   with: "#petKind"
                 - text: lowercasePetKind
-                  with: "#petKind.toLowerCase()+ 's'"
+                  with: "#lowerPluralPetKind"
             - type: OpenRewriteRecipe
               recipe: org.openrewrite.java.ChangePackage
               options:
