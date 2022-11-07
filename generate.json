@@ -2,6 +2,6 @@
     "projectName": "micropets-java-service-accelerator",
     "petKind": "Snake",
     "pkgName": "org.demo.micropets",
-    "dbType": "postgresql",
+    "dbType": "azurePostgresql",
     "resourcesNamespace": "mon-espace-db"
 }

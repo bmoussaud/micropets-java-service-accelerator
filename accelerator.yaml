@@ -28,8 +28,10 @@ accelerator:
       defaultValue: h2
       name: dbType
       choices:
-        - value: postgresql
-          text: PostgreSQL
+        - value: azurePostgresql
+          text: Azure PostgreSQL
+        - value: tanzuPostgresql
+          text: Tanzu PostgreSQL
         - value: h2
           text: H2 (In Memory DB)
       required: true
@@ -51,6 +53,8 @@ engine:
       expression: "'francecentral'"
     - name: lowerPluralPetKind
       expression: "#petKind.toLowerCase()+'s'"
+    - name: kebabDbType                  
+      expression: "#camel2Kebab(#dbType)"
   chain:
     - merge:
         - include: [".mvn/**", "mvnw", "mvnw.cmd"]
@@ -92,6 +96,8 @@ engine:
                   with: "#imageRegistry.toLowerCase()"
                 - text: PET_KIND
                   with: "#petKind"
+                - text: dbType                  
+                  with: "#kebabDbType"
         - include: ["**/*.java"]
           chain:
             - type: ReplaceText
@@ -105,14 +111,14 @@ engine:
               options:
                 oldPackageName: "'com.renamethis'"
                 newPackageName: "#pkgName"
-        - condition: "#createResourceClaim && #dbType == 'postgresql'"
+        - condition: "#createResourceClaim && #dbType == 'tanzuPostgresql'"
           include: ["**/tanzu-postgresql.yaml"]
           chain:
             - type: YTT
             - type: RewritePath
               regex: "templates/tanzu-postgresql.yaml"
               rewriteTo: "'config/app-operator/tanzu-postgresql.yaml'"
-        - condition: "#createResourceClaim && #dbType == 'postgresql'"
+        - condition: "#createResourceClaim && #dbType == 'azurePostgresql'"
           include: ["**/azure-postgresql.yaml"]
           chain:
             - type: YTT

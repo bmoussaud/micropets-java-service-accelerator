@@ -3,7 +3,8 @@ ACCELERATOR_NAME=micropets-java-service-accelerator
 REGISTRY=akseutap3registry.azurecr.io
 
 push-accelerator: 
-	$(TANZU_ACCELERATOR) push --local-path . --source-image $(REGISTRY)/$(ACCELERATOR_NAME) && sleep 1
+	$(TANZU_ACCELERATOR) push --local-path . --source-image $(REGISTRY)/$(ACCELERATOR_NAME) 
+	sleep 2
 
 deploy-git-accelerator:
 #kapp deploy -c -y -a micropet-java-service-accelerator -f ./k8s

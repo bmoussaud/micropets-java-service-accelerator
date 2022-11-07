@@ -44,7 +44,7 @@ metadata:
 spec:
   owner:
     name: #@ data.values.lowerPluralPetKind+"-psql-srv"
-  startIpAddress: 0.0.0.0 
+  startIpAddress: 0.0.0.0
   endIpAddress: 255.255.255.255
 ---
 apiVersion: dbforpostgresql.azure.com/v1beta20210601
@@ -136,8 +136,8 @@ rules:
       - list
       - watch
     resourceNames:
-      - #@ data.values.lowerPluralPetKind+"-psql-secret"
-  - apiGroups:      
+      -  #@ data.values.lowerPluralPetKind+"-psql-secret"
+  - apiGroups:
       - dbforpostgresql.azure.com
     resources:
       - flexibleservers
@@ -148,8 +148,8 @@ rules:
       - watch
       - fetch
     resourceNames:
-      - #@ data.values.lowerPluralPetKind+"-psql"
-      - #@ data.values.lowerPluralPetKind+"-psql-srv"
+      -  #@ data.values.lowerPluralPetKind+"-psql"
+      -  #@ data.values.lowerPluralPetKind+"-psql-srv"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -207,7 +207,7 @@ spec:
 apiVersion: services.apps.tanzu.vmware.com/v1alpha1
 kind: ResourceClaim
 metadata:
-  name: #@ data.values.lowerPluralPetKind+"-azure-database"
+  name: #@ data.values.lowerPluralPetKind+"-azure-postgres-database"
   namespace: #@ data.values.devNamespace
 spec:
   ref:

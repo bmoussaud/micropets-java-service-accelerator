@@ -19,16 +19,11 @@ spec:
     - name: SPRING_PROFILES_ACTIVE
       value: postgres
   serviceClaims:
-    - name: ref-lowercasePetKind-tanzu-database
+    - name: lowercasePetKind-database
       ref:
         apiVersion: services.apps.tanzu.vmware.com/v1alpha1
         kind: ResourceClaim
-        name: lowercasePetKind-tanzu-database
-    - name: ref-lowercasePetKind-azure-database
-      ref:
-        apiVersion: services.apps.tanzu.vmware.com/v1alpha1
-        kind: ResourceClaim
-        name: lowercasePetKind-azure-database
+        name: lowercasePetKind-dbType-database    
   params:
     - name: gitops_server_address
       value: https://github.com/
