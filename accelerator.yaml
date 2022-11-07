@@ -41,84 +41,83 @@ accelerator:
       dataType: boolean
       required: true
       hidden: true
-    - name: resourcesNamespace
-      hidden: true
-      defaultValue: database-instances-fr
-    - name: devNamespace
-      hidden: true
-      defaultValue: dev-tap
-    - name: azureLocation
-      hidden: true
-      defaultValue: francecentral
 engine:
-  merge:
-    - include: [".mvn/**", "mvnw", "mvnw.cmd"]
-    - include: ["pom.xml"]
-      chain:
-        - type: ReplaceText
-          substitutions:
-            - text: my-petservice
-              with: "#petKind.toLowerCase()+ 's'"
-            - text: PetKind
-              with: "#petKind"
-            - text: pkgName
-              with: "#pkgName"
-    - include:
-        [
-          "config/**",
-          ".gitignore",
-          ".tanzuignore",
-          "README.md",
-          "apply_workload.sh",
-          "git-push.sh",
-          "clean.sh",
-          "Tiltfile",
-          "catalog-info.yaml",
-          "src/main/resources/schema-*.sql",
-          "src/main/resources/application.yml",
-          "src/main/resources/application-postgres.yml",
-        ]
-      chain:
-        - type: ReplaceText
-          substitutions:
-            - text: my-petservice
-              with: "#petKind.toLowerCase()+ 's'"
-            - text: PetKind
-              with: "#petKind"
-            - text: lowercasePetKind
-              with: "#petKind.toLowerCase()+ 's'"
-            - text: imageRegistry
-              with: "#imageRegistry.toLowerCase()"
-            - text: PET_KIND
-              with: "#petKind"
-    - include: ["**/*.java"]
-      chain:
-        - type: ReplaceText
-          substitutions:
-            - text: PetKind
-              with: "#petKind"
-            - text: lowercasePetKind
-              with: "#petKind.toLowerCase()+ 's'"
-        - type: OpenRewriteRecipe
-          recipe: org.openrewrite.java.ChangePackage
-          options:
-            oldPackageName: "'com.renamethis'"
-            newPackageName: "#pkgName"    
-    - condition: "#createResourceClaim && #dbType == 'postgresql'"
-      include: ["**/tanzu-postgresql.yaml"]
-      chain:
-        - type: YTT
-        - type: RewritePath
-          regex: "templates/tanzu-postgresql.yaml"
-          rewriteTo: "'config/app-operator/tanzu-postgresql.yaml'"
-    - condition: "#createResourceClaim && #dbType == 'postgresql'"
-      include: ["**/azure-postgresql.yaml"]
-      chain:
-        - type: YTT
-        - type: RewritePath
-          regex: "templates/azure-postgresql.yaml"
-          rewriteTo: "'config/app-operator/azure-postgresql.yaml'"
+  let:
+    - name: devNamespace
+      expression: "'dev-tap'"
+    - name: resourcesNamespace
+      expression: "'database-instances-fr'"
+    - name: azureLocation
+      expression: "'francecentral'"
   chain:
-    - type: RewritePath
-      regex: (.*)PetKind(.*)
-      rewriteTo: "#g1 + #petKind + #g2"
+    - merge:
+        - include: [".mvn/**", "mvnw", "mvnw.cmd"]
+        - include: ["pom.xml"]
+          chain:
+            - type: ReplaceText
+              substitutions:
+                - text: my-petservice
+                  with: "#petKind.toLowerCase()+ 's'"
+                - text: PetKind
+                  with: "#petKind"
+                - text: pkgName
+                  with: "#pkgName"
+        - include:
+            [
+              "config/**",
+              ".gitignore",
+              ".tanzuignore",
+              "README.md",
+              "apply_workload.sh",
+              "git-push.sh",
+              "clean.sh",
+              "Tiltfile",
+              "catalog-info.yaml",
+              "src/main/resources/schema-*.sql",
+              "src/main/resources/application.yml",
+              "src/main/resources/application-postgres.yml",
+            ]
+          chain:
+            - type: ReplaceText
+              substitutions:
+                - text: my-petservice
+                  with: "#petKind.toLowerCase()+ 's'"
+                - text: PetKind
+                  with: "#petKind"
+                - text: lowercasePetKind
+                  with: "#petKind.toLowerCase()+ 's'"
+                - text: imageRegistry
+                  with: "#imageRegistry.toLowerCase()"
+                - text: PET_KIND
+                  with: "#petKind"
+        - include: ["**/*.java"]
+          chain:
+            - type: ReplaceText
+              substitutions:
+                - text: PetKind
+                  with: "#petKind"
+                - text: lowercasePetKind
+                  with: "#petKind.toLowerCase()+ 's'"
+            - type: OpenRewriteRecipe
+              recipe: org.openrewrite.java.ChangePackage
+              options:
+                oldPackageName: "'com.renamethis'"
+                newPackageName: "#pkgName"
+        - condition: "#createResourceClaim && #dbType == 'postgresql'"
+          include: ["**/tanzu-postgresql.yaml"]
+          chain:
+            - type: YTT
+            - type: RewritePath
+              regex: "templates/tanzu-postgresql.yaml"
+              rewriteTo: "'config/app-operator/tanzu-postgresql.yaml'"
+        - condition: "#createResourceClaim && #dbType == 'postgresql'"
+          include: ["**/azure-postgresql.yaml"]
+          chain:
+            - type: YTT
+            - type: RewritePath
+              regex: "templates/azure-postgresql.yaml"
+              rewriteTo: "'config/app-operator/azure-postgresql.yaml'"
+    - chain:
+        - type: RewritePath
+          regex: (.*)PetKind(.*)
+          rewriteTo: "#g1 + #petKind + #g2"
