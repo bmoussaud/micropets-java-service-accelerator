@@ -110,15 +110,15 @@ engine:
               recipe: org.openrewrite.java.ChangePackage
               options:
                 oldPackageName: "'com.renamethis'"
-                newPackageName: "#pkgName"
-        - condition: "#createResourceClaim && #dbType == 'tanzuPostgresql'"
+                newPackageName: "#pkgName"        
+        - condition: "#createResourceClaim && ( #dbType == 'azurePostgresql' ||#dbType == 'tanzuPostgresql') " 
           include: ["**/tanzu-postgresql.yaml"]
           chain:
             - type: YTT
             - type: RewritePath
               regex: "templates/tanzu-postgresql.yaml"
               rewriteTo: "'config/app-operator/tanzu-postgresql.yaml'"
-        - condition: "#createResourceClaim && #dbType == 'azurePostgresql'"
+        - condition: "#createResourceClaim && ( #dbType == 'azurePostgresql' ||#dbType == 'tanzuPostgresql') "
           include: ["**/azure-postgresql.yaml"]
           chain:
             - type: YTT
