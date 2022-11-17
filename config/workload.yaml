@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/name: lowercasePetKind
     app.kubernetes.io/part-of: micropets-app
     micropets/kind: backend
-    #apps.tanzu.vmware.com/has-tests: "true"
+    apps.tanzu.vmware.com/has-tests: "true"
 spec:
   serviceAccountName: tap-default
   source:
@@ -23,14 +23,14 @@ spec:
       ref:
         apiVersion: services.apps.tanzu.vmware.com/v1alpha1
         kind: ResourceClaim
-        name: lowercasePetKind-dbType-database    
+        name: lowercasePetKind-dbType-database
   params:
-    - name: gitops_server_address
-      value: https://github.com/
-    - name: gitops_repository_owner
-      value: bmoussaud
-    - name: gitops_repository_name
-      value: micropets-app-gitops
+    #- name: gitops_server_address
+    #  value: https://github.com/
+    #- name: gitops_repository_owner
+    #  value: bmoussaud
+    #- name: gitops_repository_name
+    #  value: micropets-app-gitops
     - name: port
       value: 8080
     - name: observability
@@ -38,3 +38,4 @@ spec:
     - name: annotations
       value:
         autoscaling.knative.dev/minScale: "1"
+        autoscaling.knative.dev/max-scale: "2"
