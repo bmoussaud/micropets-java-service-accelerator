@@ -17,6 +17,11 @@ accelerator:
       description: The name of the package
       dataType: string
       defaultValue: org.moussaud.micropets.pets
+    - name: devNamespace
+      label: Developer Namespace
+      description: The Developer's namespace
+      dataType: string
+      defaultValue: dev-tap
     - name: imageRegistry
       label: Image registry
       description: the image registry
@@ -44,11 +49,9 @@ accelerator:
       required: true
       hidden: true
 engine:
-  let:
-    - name: devNamespace
-      expression: "'dev-tap'"
+  let:    
     - name: resourcesNamespace
-      expression: "'database-instances-fr'"
+      expression: "'database-instances'"
     - name: azureLocation
       expression: "'francecentral'"
     - name: lowerPluralPetKind
