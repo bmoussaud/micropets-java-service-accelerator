@@ -8,6 +8,9 @@ metadata:
     app.kubernetes.io/part-of: micropets-app
     micropets/kind: backend
     apps.tanzu.vmware.com/has-tests: "true"
+  annotations:
+    autoscaling.knative.dev/minScale: "1"
+    autoscaling.knative.dev/max-scale: "2"
 spec:
   serviceAccountName: tap-default
   source:
@@ -25,17 +28,7 @@ spec:
         kind: ResourceClaim
         name: lowercasePetKind-dbType-database
   params:
-    #- name: gitops_server_address
-    #  value: https://github.com/
-    #- name: gitops_repository_owner
-    #  value: bmoussaud
-    #- name: gitops_repository_name
-    #  value: micropets-app-gitops
-    - name: port
-      value: 8080
-    - name: observability
-      value: false
-    - name: annotations
+    - name: testing_pipeline_matching_labels
       value:
-        autoscaling.knative.dev/minScale: "1"
-        autoscaling.knative.dev/max-scale: "2"
+        apps.tanzu.vmware.com/pipeline: test-java
+    
