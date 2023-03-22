@@ -1,10 +1,10 @@
-SOURCE_IMAGE = os.getenv("SOURCE_IMAGE", default='imageRegistry/micropet-tap-lowercasePetKind-sources')
+SOURCE_IMAGE = 'imageRegistry/micropet-tap-lowercasePetKind-sources'
 LOCAL_PATH = os.getenv("LOCAL_PATH", default='.')
-NAMESPACE = os.getenv("NAMESPACE", default='dev-tap')
+NAMESPACE = 'devNamespace'
 
-allow_k8s_contexts('aks-eu-tap-2')
+allow_k8s_contexts('aks-eu-tap-5')
 
-k8s_yaml(["config/app-operator/postgresql.yaml","config/app-operator/postgresqlResourceClaim.yaml"])
+k8s_yaml(["config/app-operator/tanzu-postgresql.yaml"])
 
 k8s_custom_deploy(
     'lowercasePetKind',
