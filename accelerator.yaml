@@ -21,12 +21,12 @@ accelerator:
       label: Developer Namespace
       description: The Developer's namespace
       dataType: string
-      defaultValue: dev-tap
+      defaultValue: micropets-dev
     - name: imageRegistry
       label: Image registry
       description: the image registry
       dataType: string
-      defaultValue: akseutap3registry.azurecr.io
+      defaultValue: akseutap5registry.azurecr.io
     - label: Database Type
       description: The type of database that services will connenct to.
       inputType: select
