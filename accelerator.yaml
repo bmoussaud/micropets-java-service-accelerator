@@ -49,14 +49,14 @@ accelerator:
       required: true
       hidden: true
 engine:
-  let:    
+  let:
     - name: resourcesNamespace
       expression: "'database-instances'"
     - name: azureLocation
       expression: "'francecentral'"
     - name: lowerPluralPetKind
       expression: "#petKind.toLowerCase()+'s'"
-    - name: kebabDbType                  
+    - name: kebabDbType
       expression: "#camel2Kebab(#dbType)"
   chain:
     - merge:
@@ -99,8 +99,10 @@ engine:
                   with: "#imageRegistry.toLowerCase()"
                 - text: PET_KIND
                   with: "#petKind"
-                - text: dbType                  
+                - text: dbType
                   with: "#kebabDbType"
+                - text: devNamespace
+                  with: "#devNamespace"
         - include: ["**/*.java"]
           chain:
             - type: ReplaceText
@@ -113,8 +115,8 @@ engine:
               recipe: org.openrewrite.java.ChangePackage
               options:
                 oldPackageName: "'com.renamethis'"
-                newPackageName: "#pkgName"        
-        - condition: "#createResourceClaim && ( #dbType == 'azurePostgresql' ||#dbType == 'tanzuPostgresql') " 
+                newPackageName: "#pkgName"
+        - condition: "#createResourceClaim && ( #dbType == 'azurePostgresql' ||#dbType == 'tanzuPostgresql') "
           include: ["**/tanzu-postgresql.yaml"]
           chain:
             - type: YTT
