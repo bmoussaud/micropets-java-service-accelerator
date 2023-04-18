@@ -3,17 +3,37 @@ kind: Component
 metadata:
   name: lowercasePetKind
   description: Micropet Micro Service App
-  tags:
-    - app-accelerator
+  tags:    
     - java
     - spring
     - web
-    - tanzu
     - micropets
   annotations:
     "backstage.io/kubernetes-label-selector": "app.kubernetes.io/name=lowercasePetKind"
+  links:
+    - url: https://en.wikipedia.org/wiki/lowercasePetKind
+      title: "lowercasePetKind (wikipedia) "
+      icon: locallibrary
+    - url: https://github.com/bmoussaud/my-lowercasePetKind-svc
+      title: "Source Repository"
+      icon: dashboard
 spec:
   type: service
   lifecycle: experimental
+  owner: the-pet-team
+  system: micropets
+  dependsOn: [Resource:lowercasePetKind-db]
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: lowercasePetKind-db
+  description: Stores lowercasePetKind
+  annotations:
+    "backstage.io/techdocs-ref": dir:.
+  tags:
+    - postgresql
+spec:
+  type: database
   owner: the-pet-team
   system: micropets
