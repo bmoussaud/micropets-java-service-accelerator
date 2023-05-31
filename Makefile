@@ -1,5 +1,5 @@
 TANZU_ACCELERATOR=tanzu accelerator
-ACCELERATOR_NAME=micropets-java-service-accelerator
+ACCELERATOR_NAME=micropet-java-service-accelerator
 REGISTRY=akseutap5registry.azurecr.io
 
 push-accelerator: 
@@ -29,12 +29,9 @@ publish:
 generate: 
 	-rm -rf generated target	
 	mkdir generated
-	$(TANZU_ACCELERATOR) generate $(ACCELERATOR_NAME) --server-url http://accelerator.tap5.eu.aks.mytanzu.xyz --output-dir generated --options-file generate.json
+	$(TANZU_ACCELERATOR) generate $(ACCELERATOR_NAME) --server-url https://accelerator.tap5.eu.aks.mytanzu.xyz --output-dir generated --options-file generate.json
 	cd generated && unzip *.zip 
-	cat generated/$(ACCELERATOR_NAME)/accelerator-log.md
-
-proxy-accelerator:
-	kubectl port-forward service/acc-server -n accelerator-system 8877:80
+	cat generated/$(ACCELERATOR_NAME)/accelerator-log.md	
 	
 # if ""URI is not absolute" or "accelerator-system   micropets-java-service-accelerator    False   ImageRepositoryResolutionFailed   64s"
 deploy-secret:

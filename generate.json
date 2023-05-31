@@ -1,5 +1,5 @@
 {
-    "projectName": "micropets-java-service-accelerator",
+    "projectName": "micropet-java-service-accelerator",
     "petKind": "Snake",
     "pkgName": "org.demo.micropets",
     "dbType": "tanzuPostgresql",

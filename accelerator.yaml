@@ -130,7 +130,4 @@ engine:
             - type: RewritePath
               regex: "templates/azure-postgresql.yaml"
               rewriteTo: "'config/app-operator/azure-postgresql.yaml'"
-    - chain:
-        - type: RewritePath
-          regex: (.*)PetKind(.*)
-          rewriteTo: "#g1 + #petKind + #g2"
+    
