@@ -5,12 +5,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 public class PetKindController {
 
+	static Logger logger = LoggerFactory.getLogger(PetKindController.class);
+
 	@Autowired
 	PetKindRepository repository;
+
+	@Autowired
+	PetKindGenerator generator;
 
 	@GetMapping(value = "/liveness")
 	public String liveness() {
@@ -48,16 +55,12 @@ public class PetKindController {
 	@GetMapping(value = "/lowercasePetKind/v1/load", produces = MediaType.APPLICATION_JSON_VALUE)
 	public PetKindSummary load() {
 
-		repository.save(new PetKind("Tweety", "Yellow Canary", 2,
-				"https://upload.wikimedia.org/wikipedia/en/0/02/Tweety.svg"));
-		repository.save(new PetKind("Hector", "African Grey Parrot", 5,
-				"https://petkeen.com/wp-content/uploads/2020/11/African-Grey-Parrot.webp"));
-		repository.save(new PetKind("Micheline", "Budgerigar", 3,
-				"https://petkeen.com/wp-content/uploads/2020/11/Budgerigar.webp"));
+		logger.debug("----LOAD....");
+		PetKindSummary summary = generator.generate();
+		logger.debug("Save All : Insert in db:" + summary.pets);
+		repository.saveAll(summary.pets);
+		return summary;
 
-		repository.save(new PetKind("Piplette", "Cockatoo", 1,
-				"https://petkeen.com/wp-content/uploads/2020/11/Cockatoo.webp"));
-		return this.PetKinds();
 	}
 
 }

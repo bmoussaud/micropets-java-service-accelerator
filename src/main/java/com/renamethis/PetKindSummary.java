@@ -50,11 +50,22 @@ public class PetKindSummary {
         this.pets.removeIf(new Predicate<PetKind>() {
             @Override
             public boolean test(PetKind PetKind) {
-                return PetKind.index > number;
+                return PetKind.index > number+1;
             }
         });
         this.total = pets.size();
         return this;
+    }
+
+    public void clear() {
+        this.total = 0;
+        pets.clear();
+    }
+
+    public void addPet(PetKind petKind) {
+        this.hostname = getHostname();
+        pets.add(petKind);
+        total = total + 1;
     }
 
 }
