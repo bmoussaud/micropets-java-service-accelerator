@@ -12,6 +12,10 @@ metadata:
     autoscaling.knative.dev/minScale: "1"
     autoscaling.knative.dev/max-scale: "2"
 spec:
+  build:
+    env:
+      - name: BP_JVM_VERSION
+        value: "17"
   serviceAccountName: tap-default
   source:
     git:
@@ -35,4 +39,3 @@ spec:
       value: scan-policy-java
     - name: scanning_image_policy
       value: scan-policy-java
-    
