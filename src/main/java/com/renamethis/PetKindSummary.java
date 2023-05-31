@@ -13,6 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PetKindSummary {
 
+    static private String CONTEXT = "lowercasePetKind";
+
     @JsonProperty(value = "Total")
     int total = 0;
 
@@ -22,12 +24,13 @@ public class PetKindSummary {
     @JsonProperty(value = "Pets")
     List<PetKind> pets = new ArrayList<>();
 
-    public void addPetKind(PetKind PetKind) {
-        pets.add(PetKind);
-        total = total + 1;
+    public void addPetKind(String name, String type, Integer age, String url) {
         this.hostname = getHostname();
-        PetKind.hostname = this.hostname;
-        PetKind.uri = String.format("/lowercasePetKind/v1/data/%d", PetKind.index);
+        total = total + 1;
+        var aipet = new PetKind(null, name, type, age, url, this.hostname,
+                String.format("/%s/v1/data/%d", CONTEXT, total));
+
+        pets.add(aipet);
     }
 
     private String getHostname() {
@@ -50,7 +53,7 @@ public class PetKindSummary {
         this.pets.removeIf(new Predicate<PetKind>() {
             @Override
             public boolean test(PetKind PetKind) {
-                return PetKind.index > number+1;
+                return PetKind.index() > number + 1;
             }
         });
         this.total = pets.size();

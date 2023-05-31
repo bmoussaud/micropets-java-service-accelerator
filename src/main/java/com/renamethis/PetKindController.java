@@ -37,7 +37,7 @@ public class PetKindController {
 				return this.load();
 			} else {
 				for (PetKind PetKind : repository.findAll()) {
-					summary.addPetKind(PetKind);
+					summary.addPet(PetKind);
 				}
 			}
 		} catch (Exception e) {
