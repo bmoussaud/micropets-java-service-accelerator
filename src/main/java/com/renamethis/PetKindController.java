@@ -36,7 +36,7 @@ public class PetKindController {
 			if (repository.count() == 0) {
 				return this.load();
 			} else {
-				for (PetKind PetKind : repository.findAll()) {
+				for (PetKindBean PetKind : repository.findAll()) {
 					summary.addPet(PetKind);
 				}
 			}
@@ -48,7 +48,7 @@ public class PetKindController {
 	}
 
 	@GetMapping(value = "/lowercasePetKind/v1/data/{index}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public PetKind PetKind(@PathVariable Long index) {
+	public PetKindBean PetKind(@PathVariable Long index) {
 		return repository.findById(index).get();
 	}
 

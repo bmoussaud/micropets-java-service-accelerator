@@ -3,7 +3,7 @@ package com.renamethis;
 import org.springframework.data.annotation.Id;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record PetKind(
+public record PetKindBean(
 
         @Id @JsonProperty(value = "Index") Integer index,
 
