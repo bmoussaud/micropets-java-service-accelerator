@@ -82,3 +82,8 @@ lowercasePetKind-database=# \dt
 (1 row)
 lowercasePetKind-database=# select * from PetKind;
 ```
+
+
+## Observability
+
+* https://www.appsdeveloperblog.com/micrometer-and-zipkin-in-spring-boot

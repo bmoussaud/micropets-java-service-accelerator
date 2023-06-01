@@ -38,6 +38,9 @@ public class PetKindBean {
             this.uri = uri;
         }
 
-        
-
+        @Override
+        public String toString() {
+            return "PetKindBean [index=" + index + ", name=" + name + ", type=" + type + ", age=" + age + ", url=" + url
+                    + ", uri=" + uri + "]";
+        }
 }

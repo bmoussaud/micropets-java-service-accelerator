@@ -13,7 +13,7 @@ public class PetKindGenerator {
 
     PetKindSummary generate() {
 
-        logger.debug("--- generate");
+        logger.debug("generate data");
         data.clear();
 
         data.addPetKind("Tweety", "Yellow Canary", 2,

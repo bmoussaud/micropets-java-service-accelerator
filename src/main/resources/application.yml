@@ -5,19 +5,55 @@ spring:
     url: jdbc:h2:mem:mydb
     username: sa
     password: password
-    driverClassName: org.h2.Driver    
+    driverClassName: org.h2.Driver
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
   sql:
     init:
       platform: h2
-      mode: always      
-      
+      mode: always
+  sleuth:
+    otel:
+      config:
+        trace-id-ratio-based: 1.0
+      exporter:
+        otlp:
+          endpoint: http://otel-collector:4317
+
+logging:
+  pattern:
+    # Include tracing ids in log entries.
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
+  level:
+    com.renamethis: DEBUG
+    org.moussaud: DEBUG
+    io.micrometer.core: DEBUG
+    org.springframework.web: DEBUG
+
 management:
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+    tags:
+      application: ${spring.application.name}
+      service: ${spring.application.name}
+      source: ${spring.application.name}-${random.uuid}
+  tracing:
+    # Set to true to forward tracing spans to a local Zipkin instance.
+    enabled: true
+    sampling:
+      probability: 1.0
+  otlp:
+    metrics:
+      export:
+        # Set to true to forward metrics to a local OpenTelemetry collector.
+        enabled: true
+        step: 30s
   endpoints:
     web:
       exposure:
-        include: "*"  
+        include: "*"
   endpoint:
     health:
       show-details: always

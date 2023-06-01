@@ -21,16 +21,19 @@ public class PetKindController {
 
 	@GetMapping(value = "/liveness")
 	public String liveness() {
+		logger.debug("liveness");
 		return "PetKindServiceLiveness";
 	}
 
 	@GetMapping(value = "/readiness")
 	public String readiness() {
+		logger.debug("readiness");
 		return "PetKindServiceReadiness";
 	}
 
 	@GetMapping(value = { "", "/", "/lowercasePetKind/v1/data" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	public PetKindSummary PetKinds() {
+		logger.debug("search all PetKinds");
 		PetKindSummary summary = new PetKindSummary();
 		try {
 			if (repository.count() == 0) {
@@ -49,13 +52,14 @@ public class PetKindController {
 
 	@GetMapping(value = "/lowercasePetKind/v1/data/{index}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public PetKindBean PetKind(@PathVariable Long index) {
+		logger.debug("get PetKind by Index " + index);
 		return repository.findById(index).get();
 	}
 
 	@GetMapping(value = "/lowercasePetKind/v1/load", produces = MediaType.APPLICATION_JSON_VALUE)
 	public PetKindSummary load() {
 
-		logger.debug("----LOAD....");
+		logger.debug("load values in the PetKind database");
 		PetKindSummary summary = generator.generate();
 		logger.debug("Save All : Insert in db:" + summary.pets);
 		repository.saveAll(summary.pets);
