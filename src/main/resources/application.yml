@@ -34,7 +34,9 @@ management:
   metrics:
     distribution:
       percentiles-histogram:
-        http.server.requests: true
+        http:
+          server:
+            requests: true
     tags:
       application: ${spring.application.name}
       service: ${spring.application.name}
@@ -44,6 +46,9 @@ management:
     enabled: true
     sampling:
       probability: 1.0
+  zipkin:
+    tracing:
+      #endpoint: http://benoit.moussaud:9411/api/v2/spans
   otlp:
     metrics:
       export:

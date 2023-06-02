@@ -5,13 +5,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.Random;
+import java.util.function.Supplier;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RestController
 public class PetKindController {
 
-	static Logger logger = LoggerFactory.getLogger(PetKindController.class);
+	private static Logger logger = LoggerFactory.getLogger(PetKindController.class);
+
+	private final Supplier<Long> latency = () -> new Random().nextLong(500);
 
 	@Autowired
 	PetKindRepository repository;
@@ -33,7 +39,9 @@ public class PetKindController {
 
 	@GetMapping(value = { "", "/", "/lowercasePetKind/v1/data" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	public PetKindSummary PetKinds() {
+
 		logger.debug("search all PetKinds");
+		
 		PetKindSummary summary = new PetKindSummary();
 		try {
 			if (repository.count() == 0) {
@@ -46,8 +54,18 @@ public class PetKindController {
 		} catch (Exception e) {
 			return this.load();
 		}
-
+		waitABit();
 		return summary.filter();
+	}
+
+	private void waitABit() {
+		try {
+			long l = latency.get().longValue();
+			logger.debug("wait a bit " + l + "ms");
+			Thread.sleep(l);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@GetMapping(value = "/lowercasePetKind/v1/data/{index}", produces = MediaType.APPLICATION_JSON_VALUE)
