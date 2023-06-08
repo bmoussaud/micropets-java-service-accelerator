@@ -4,7 +4,7 @@ NAMESPACE = 'devNamespace'
 
 allow_k8s_contexts('aks-eu-tap-5')
 
-k8s_yaml(["config/app-operator/tanzu-postgresql.yaml"])
+#k8s_yaml(["config/app-operator/tanzu-postgresql.yaml"])
 
 k8s_custom_deploy(
     'lowercasePetKind',
