@@ -1,6 +1,6 @@
 spring:
   application:
-    name: lowercasePetKind-app
+    name: lowercasePetKind
   datasource:
     url: jdbc:h2:mem:mydb
     username: sa
@@ -34,7 +34,7 @@ management:
   wavefront:
     application:
       name: micropets
-      service-name: lowercasePetKind-app
+      service-name: lowercasePetKind
     api-token: xxxx-xxxxx-xxxx-xxxxx
     uri: https://binz.wavefront.com
   metrics:
