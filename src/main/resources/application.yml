@@ -31,12 +31,13 @@ logging:
     org.springframework.web: DEBUG
 
 management:
-  wavefront:
-    application:
-      name: micropets
-      service-name: lowercasePetKind
-    api-token: xxxx-xxxxx-xxxx-xxxxx
-    uri: https://binz.wavefront.com
+  #wavefront:
+  #  source: ${spring.application.name}
+  #  application:
+  #    name: micropets
+  #    service-name: birds
+  #  api-token: X04dx315-benoit-4bc0-b123-moussaud
+  #  uri: https://binz.wavefront.com  
   metrics:
     distribution:
       percentiles-histogram:
