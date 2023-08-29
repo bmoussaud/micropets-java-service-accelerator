@@ -1,6 +1,6 @@
 TANZU_ACCELERATOR=tanzu accelerator
 ACCELERATOR_NAME=micropet-java-service-accelerator
-REGISTRY=akseutap5registry.azurecr.io
+REGISTRY=akseutap6registry.azurecr.io
 
 push-accelerator: 
 	$(TANZU_ACCELERATOR) push --local-path . --source-image $(REGISTRY)/$(ACCELERATOR_NAME) 
@@ -29,7 +29,7 @@ publish:
 generate: 
 	-rm -rf generated target	
 	mkdir generated
-	$(TANZU_ACCELERATOR) generate $(ACCELERATOR_NAME) --server-url https://accelerator.tap5.eu.aks.mytanzu.xyz --output-dir generated --options-file generate.json
+	$(TANZU_ACCELERATOR) generate $(ACCELERATOR_NAME) --server-url https://accelerator.16x.tanzu.moussaud.org --output-dir ./generated --options-file generate.json
 	cd generated && unzip *.zip 
 	cat generated/$(ACCELERATOR_NAME)/accelerator-log.md	
 	
