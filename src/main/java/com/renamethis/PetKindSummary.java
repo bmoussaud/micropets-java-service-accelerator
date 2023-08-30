@@ -9,6 +9,8 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.function.Predicate;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PetKindSummary {
@@ -26,11 +28,11 @@ public class PetKindSummary {
 
     private boolean filter = true;
 
-    public void addPetKind(String name, String type, Integer age, String url) {
+    public void addPetKind(String name, String type, Integer age, String url, String from) {
         this.hostname = getHostname();
         total = total + 1;
         var pet = new PetKindBean(total, name, type, age, url, this.hostname,
-                String.format("/%s/v1/data/%d", CONTEXT, total));
+                String.format("/%s/v1/data/%d", CONTEXT, total), from);
 
         pets.add(pet);
     }

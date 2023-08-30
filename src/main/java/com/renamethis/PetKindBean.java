@@ -1,5 +1,7 @@
 package com.renamethis;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Entity;
@@ -35,12 +37,15 @@ public class PetKindBean {
         @JsonProperty(value = "URI")
         String uri;
 
+        @JsonProperty(value = "From")
+        String fromValue;
+
         public PetKindBean() {
 
         }
 
         public PetKindBean(Integer index, String name, String type, Integer age, String url, String hostname,
-                        String uri) {
+                        String uri, String from) {
                 this.index = null;
                 this.name = name;
                 this.type = type;
@@ -48,13 +53,14 @@ public class PetKindBean {
                 this.url = url;
                 this.hostname = hostname;
                 this.uri = uri;
+                this.fromValue = from;
+
         }
 
         @Override
         public String toString() {
                 return "PetKindBean [index=" + index + ", name=" + name + ", type=" + type + ", age=" + age + ", url="
-                                + url
-                                + ", uri=" + uri + "]";
+                                + url + ", hostname=" + hostname + ", uri=" + uri + ", from=" + fromValue + "]";
         }
 
         public Integer getIndex() {

@@ -1,3 +1,6 @@
+micropets:
+  from: Paris
+
 spring:
   application:
     name: lowercasePetKind
