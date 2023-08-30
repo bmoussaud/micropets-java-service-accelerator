@@ -24,13 +24,15 @@ public class PetKindSummary {
     @JsonProperty(value = "Pets")
     List<PetKindBean> pets = new ArrayList<>();
 
+    private boolean filter = true;
+
     public void addPetKind(String name, String type, Integer age, String url) {
         this.hostname = getHostname();
         total = total + 1;
-        var aipet = new PetKindBean(null, name, type, age, url, this.hostname,
+        var pet = new PetKindBean(total, name, type, age, url, this.hostname,
                 String.format("/%s/v1/data/%d", CONTEXT, total));
 
-        pets.add(aipet);
+        pets.add(pet);
     }
 
     private String getHostname() {
@@ -48,15 +50,17 @@ public class PetKindSummary {
 
     public PetKindSummary filter() {
         Collections.shuffle(this.pets);
-        Random random = new Random();
-        int number = random.nextInt(pets.size());
-        this.pets.removeIf(new Predicate<PetKindBean>() {
-            @Override
-            public boolean test(PetKindBean PetKind) {
-                return PetKind.index > number + 1;
-            }
-        });
-        this.total = pets.size();
+        if (filter) {
+            final Random random = new Random();
+            final int number = random.nextInt(pets.size());
+            this.pets.removeIf(new Predicate<PetKindBean>() {
+                @Override
+                public boolean test(PetKindBean pet) {
+                    return pet.getIndex() > number + 1;
+                }
+            });
+            this.total = pets.size();
+        }
         return this;
     }
 

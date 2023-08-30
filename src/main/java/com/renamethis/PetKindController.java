@@ -41,7 +41,7 @@ public class PetKindController {
 	public PetKindSummary PetKinds() {
 
 		logger.debug("search all PetKinds");
-		
+
 		PetKindSummary summary = new PetKindSummary();
 		try {
 			if (repository.count() == 0) {
