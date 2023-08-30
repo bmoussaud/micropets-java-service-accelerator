@@ -26,7 +26,7 @@ status:
 publish:
 	git add -A  && git commit -m "accelerator" && git push
 
-generate: 
+generate:
 	-rm -rf generated target	
 	mkdir generated
 	$(TANZU_ACCELERATOR) generate $(ACCELERATOR_NAME) --server-url https://accelerator.16x.tanzu.moussaud.org --output-dir ./generated --options-file generate.json
