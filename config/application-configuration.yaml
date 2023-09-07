@@ -1,0 +1,31 @@
+apiVersion: config.apps.tanzu.vmware.com/v1alpha4
+kind: ConfigurationSource
+metadata:
+  name: lowercasePetKind-config
+spec:
+  backends:
+  - type: git
+    uri: https://github.com/bmoussaud/micropets-app-gitops
+    defaultLabel: main
+    searchPaths:
+    - appconfig/micropets-dev/lowercasePetKind-java
+---
+apiVersion: config.apps.tanzu.vmware.com/v1alpha4
+kind: ConfigurationSlice
+metadata:
+  name: lowercasePetKind-config
+spec:
+  interval: 1s
+  configurationSource: lowercasePetKind-config
+  content:
+  - application/default
+---
+apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+kind: ResourceClaim
+metadata:
+  name: lowercasePetKind-config
+spec:
+  ref:
+    apiVersion: config.apps.tanzu.vmware.com/v1alpha4
+    kind: ConfigurationSlice
+    name: lowercasePetKind-config
