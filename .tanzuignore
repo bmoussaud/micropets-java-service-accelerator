@@ -3,4 +3,4 @@ target
 .github
 .idea
 .vscode
-config
+generated

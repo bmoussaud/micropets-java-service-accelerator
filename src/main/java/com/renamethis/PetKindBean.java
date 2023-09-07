@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "PetKindBean_TABLE")
@@ -31,12 +32,14 @@ public class PetKindBean {
         @JsonProperty(value = "URL")
         String url;
 
+        @Transient
         @JsonProperty(value = "Hostname")
         String hostname;
 
         @JsonProperty(value = "URI")
         String uri;
 
+        @Transient
         @JsonProperty(value = "From")
         String fromValue;
 
@@ -66,5 +69,15 @@ public class PetKindBean {
         public Integer getIndex() {
                 return index;
         }
+
+        public void setHostname(String hostname) {
+                this.hostname = hostname;
+        }
+
+        public void setFromValue(String fromValue) {
+                this.fromValue = fromValue;
+        }
+
+        
 
 }

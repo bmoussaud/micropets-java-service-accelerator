@@ -25,6 +25,9 @@ public class PetKindController {
 	@Autowired
 	PetKindGenerator generator;
 
+	@Autowired
+	PetKindSummary summary;
+
 	@GetMapping(value = "/liveness")
 	public String liveness() {
 		logger.debug("liveness");
@@ -41,8 +44,7 @@ public class PetKindController {
 	public PetKindSummary PetKinds() {
 
 		logger.debug("search all PetKinds");
-
-		PetKindSummary summary = new PetKindSummary();
+		summary.clear();
 		try {
 			if (repository.count() == 0) {
 				return this.load();

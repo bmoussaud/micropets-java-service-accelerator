@@ -1,7 +1,7 @@
 apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
-  name: lowercasePetKind
+  name: lowercasePetKind-springboot
   labels:
     apps.tanzu.vmware.com/workload-type: web
     app.kubernetes.io/name: lowercasePetKind
@@ -25,12 +25,19 @@ spec:
   env:
     - name: SPRING_PROFILES_ACTIVE
       value: postgres
+    - name: SPRING_CONFIG_IMPORT
+      value: optional:configtree:${SERVICE_BINDING_ROOT}/lowercasePetKind-config/
   serviceClaims:
     - name: lowercasePetKind-database
       ref:
         apiVersion: services.apps.tanzu.vmware.com/v1alpha1
         kind: ResourceClaim
         name: micropets-dev-tanzu-postgresql-database
+    - name: lowercasePetKind-config
+      ref:
+        apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+        kind: ResourceClaim
+        name: lowercasePetKind-config
   params:
     - name: testing_pipeline_matching_labels
       value:

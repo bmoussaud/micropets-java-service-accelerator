@@ -26,7 +26,7 @@ accelerator:
       label: Image registry
       description: the image registry
       dataType: string
-      defaultValue: akseutap5registry.azurecr.io
+      defaultValue: akseutap6registry.azurecr.io
     - label: Database Type
       description: The type of database that services will connenct to.
       inputType: select

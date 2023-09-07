@@ -1,5 +1,5 @@
 micropets:
-  from: Paris
+  from: Paris (Local)
 
 spring:
   application:

@@ -10,11 +10,13 @@ import java.net.UnknownHostException;
 import java.util.function.Predicate;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@Service
 public class PetKindSummary {
-
+    
     static private String CONTEXT = "lowercasePetKind";
 
     @JsonProperty(value = "Total")
@@ -26,10 +28,13 @@ public class PetKindSummary {
     @JsonProperty(value = "Pets")
     List<PetKindBean> pets = new ArrayList<>();
 
+    @Value("${micropets.from}")
+    String from;
+
     private boolean filter = true;
 
-    public void addPetKind(String name, String type, Integer age, String url, String from) {
-        this.hostname = getHostname();
+    public void addPetKind(String name, String type, Integer age, String url) {
+        hostname = getHostname();
         total = total + 1;
         var pet = new PetKindBean(total, name, type, age, url, this.hostname,
                 String.format("/%s/v1/data/%d", CONTEXT, total), from);
@@ -63,6 +68,7 @@ public class PetKindSummary {
             });
             this.total = pets.size();
         }
+
         return this;
     }
 
@@ -73,6 +79,8 @@ public class PetKindSummary {
 
     public void addPet(PetKindBean petKind) {
         this.hostname = getHostname();
+        petKind.setHostname(hostname);
+        petKind.setFromValue(from);
         pets.add(petKind);
         total = total + 1;
     }
