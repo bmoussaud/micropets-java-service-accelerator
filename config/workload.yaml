@@ -41,7 +41,7 @@ spec:
   params:
     - name: testing_pipeline_matching_labels
       value:
-        apps.tanzu.vmware.com/pipeline: test-java
+        apps.tanzu.vmware.com/pipeline: skip-test
     - name: scanning_source_policy
       value: scan-policy-java
     - name: scanning_image_policy
