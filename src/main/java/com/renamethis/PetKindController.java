@@ -73,7 +73,8 @@ public class PetKindController {
 	@GetMapping(value = "/lowercasePetKind/v1/data/{index}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public PetKindBean PetKind(@PathVariable Long index) {
 		logger.debug("get PetKind by Index " + index);
-		return repository.findById(index).get();
+		summary.clear();
+		return summary.upgrade(repository.findById(index).get());
 	}
 
 	@GetMapping(value = "/lowercasePetKind/v1/load", produces = MediaType.APPLICATION_JSON_VALUE)

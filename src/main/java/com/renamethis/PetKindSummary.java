@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Service
 public class PetKindSummary {
-    
+
     static private String CONTEXT = "lowercasePetKind";
 
     @JsonProperty(value = "Total")
@@ -77,11 +77,15 @@ public class PetKindSummary {
         pets.clear();
     }
 
-    public void addPet(PetKindBean petKind) {
+    public PetKindBean upgrade(PetKindBean petKind) {
         this.hostname = getHostname();
         petKind.setHostname(hostname);
         petKind.setFromValue(from);
-        pets.add(petKind);
+        return petKind;
+    }
+
+    public void addPet(PetKindBean petKind) {        
+        pets.add(upgrade(petKind));
         total = total + 1;
     }
 
