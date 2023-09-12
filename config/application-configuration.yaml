@@ -8,7 +8,7 @@ spec:
     uri: https://github.com/bmoussaud/micropets-app-gitops
     defaultLabel: main
     searchPaths:
-    - appconfig/micropets-dev/lowercasePetKind-java
+    - appconfig/micropets-dev/lowercasePetKind-springboot
 ---
 apiVersion: config.apps.tanzu.vmware.com/v1alpha4
 kind: ConfigurationSlice
