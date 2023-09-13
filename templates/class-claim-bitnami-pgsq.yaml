@@ -1,0 +1,11 @@
+#! tanzu service class-claim create bitnami-pgsql --class postgresql-unmanaged --parameter storageGB=1
+apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+kind: ClassClaim
+metadata:
+  name: #@ data.values.lowerPluralPetKind+"-bitnami-postgresql-database"
+  namespace: micropets-dev
+spec:
+  classRef:
+    name: postgresql-unmanaged
+  parameters:
+    storageGB: 1

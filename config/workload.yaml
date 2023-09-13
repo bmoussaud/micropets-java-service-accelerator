@@ -33,6 +33,8 @@ spec:
         apiVersion: services.apps.tanzu.vmware.com/v1alpha1
         kind: ResourceClaim
         name: micropets-dev-tanzu-postgresql-database
+        #kind: ClassClaim
+        #name: lowercasePetKind-bitnami-postgresql-database
     - name: lowercasePetKind-config
       ref:
         apiVersion: services.apps.tanzu.vmware.com/v1alpha1
