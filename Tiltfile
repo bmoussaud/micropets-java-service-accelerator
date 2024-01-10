@@ -2,7 +2,7 @@ SOURCE_IMAGE = 'imageRegistry/micropet-tap-lowercasePetKind-sources'
 LOCAL_PATH = os.getenv("LOCAL_PATH", default='.')
 NAMESPACE = 'devNamespace'
 
-allow_k8s_contexts('aks-eu-tap-6')
+allow_k8s_contexts('aks-eu-tap-7')
 
 k8s_yaml(["config/application-configuration.yaml"])
 
